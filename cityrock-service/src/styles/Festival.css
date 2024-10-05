@@ -1,0 +1,111 @@
+/* 링크 효과 제거 */
+.festival-card-link {
+  text-decoration: none; /* 밑줄 제거 */
+  color: inherit; /* 글씨 색상을 부모 요소의 색상과 일치시킴 */
+}
+
+.festival-card-link:hover,
+.festival-card-link:focus,
+.festival-card-link:active {
+  text-decoration: none; /* 호버, 포커스, 클릭 시에도 밑줄 제거 */
+  color: inherit; /* 호버, 포커스, 클릭 시에도 색상 유지 */
+}
+
+.festival-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.festival-card {
+  background-color: #FFFAD0;
+  border-radius: 20px;
+  width: 344px;
+  height: 134px;
+  margin: 9px 0;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* 텍스트와 이미지를 양 끝에 배치 */
+  align-items: center;
+  box-shadow: 1px 5px 5px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.image-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  padding: 0; 
+  flex-shrink: 0; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dday-overlay {
+  position: absolute;
+  width: 40px;
+  height: 17px;
+  top: 7px;
+  left: 6px;
+  background-color: white;
+  font-size: 10px;
+  font-weight: 700;
+  color: black;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  padding: 0;
+  margin: 0;
+}
+
+.festival-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.festival-info {
+  text-align: left;
+  margin-left: 5px;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.festival-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 17px; 
+  margin-bottom: 30px;
+}
+
+.festival-info .date-location,
+.festival-info .location {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin: 2px 0;
+}
+
+.festival-info .date-location p,
+.festival-info .location p {
+  margin-right: 5px;
+  margin: 0;
+  margin-right: 3px;
+}
+
+.festival-info .location p:first-child {
+  font-weight: 700; /* "장소" 텍스트만 굵게 설정 */
+  margin-right: 3px;
+}
+
+.festival-info .bold-text {
+  font-weight: bold;
+}

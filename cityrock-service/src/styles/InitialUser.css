@@ -1,0 +1,77 @@
+.algorithm-container {
+    margin: 18px 24px 0px 24px;
+    /* background-color: pink; */
+    /* box-sizing: border-box; */
+}
+
+.mainGuide {
+    /* background-color: wheat; */
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.guide {
+    color: #3EA0F9;
+    margin: 0;
+    font-size: 12px;
+}
+
+.progress-bar {
+    margin: 16px 0px 49px;
+    height: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: #FEBF3E;
+    transition: width 0.3s ease;
+}
+
+.category-items {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열로 설정 */
+}
+
+.keyword {
+    margin-bottom: 43px;
+}
+
+.keyword img {
+    width: 98px;
+    height: 98px;
+    border-radius: 50px;
+}
+
+.items-box {
+    margin-right: 24px;
+    cursor: pointer;
+    opacity: 1; /* 기본 투명도 50% */
+    transition: opacity 0.3s ease;
+}
+
+.keyword.selected {
+    opacity: 1 !important; /* 선택된 키워드의 투명도 100% */
+}
+
+.category-items p {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+}
+
+.submitButton {
+    background-color: #FEE58B;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    width: 94px;
+    height: 46px;
+    border-radius: 50px;
+    border: none;
+    float: right;
+}

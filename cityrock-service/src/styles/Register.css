@@ -1,0 +1,108 @@
+h2 {
+  font-weight: 900;
+  font-size: 24px;
+  margin: 0px;
+}
+
+.register-form {
+  margin-left: 33px;
+  padding-top: 0px;
+}
+
+input {
+  width: 324px;
+  height: 45px;
+  border-radius: 10px;
+  border: 2px solid #D7D7D7;
+  margin-top: 10px;
+}
+
+input[type=phonenumder] {
+  width: 243px;
+  margin-right: 10px;
+}
+
+input[placeholder]{
+  padding-left: 10px;
+  font-size: 12px;
+}
+
+.accounttxt{
+  font-size: 14px;
+  font-weight: 550;
+  margin-top: 15px;
+}
+
+.phone-button{
+  background-color: black;
+  height: 47px;
+  width: 75px;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-size: 12px;
+}
+
+.register-button{
+  background-color: #A3A4B0;
+  height: 60px;
+  width: 344px;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-size: 18px;
+  border: 0px solid;
+  font-weight: 600;
+  margin-top: 25px;
+}
+
+.loginq{
+  text-align: center;
+  color: #A3A4B0;
+  font-size: 14px;
+  margin-right: 25px;
+  margin-top: 5px;
+
+}
+
+.loginq > span{
+  color: #A3A4B0;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+/* styles/Register.css */
+.input-container {
+  position: relative;
+}
+
+.icon-container {
+  position: absolute;
+  right: 39px;
+  top: 50%;
+  transform: translateY(-30%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 1.4em;
+  color: #A3A4B0;
+}
+
+.success-message1{
+  font-size: 12px;
+  color:#A3A4B0;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+.password-input.matchcheck {
+  background-color:  rgba(17, 214, 17, 0.2);
+}
+
+.error-message{
+  color: #ef4242;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 90px;
+}

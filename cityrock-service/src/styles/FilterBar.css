@@ -1,0 +1,24 @@
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.filter-select {
+  padding: 10px;
+  width: 110px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  appearance: none;
+  -webkit-appearance: none; /* Safari and Chrome */
+  -moz-appearance: none; /* Firefox */
+  background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns%3D%27http%3A//www.w3.org/2000/svg%27 width%3D%2716%27 height%3D%2716%27 viewBox%3D%270 0 16 16%27%3E%3Cpath fill%3D%27%23000%27 d%3D%27M4 6l4 4 4-4z%27/%3E%3C/svg%3E') no-repeat right 10px center;
+  background-color: white;
+  padding-right: 30px; /* 화살표가 들어갈 공간 확보 */
+}
+
+.filter-select option {
+  padding: 10px;
+}
