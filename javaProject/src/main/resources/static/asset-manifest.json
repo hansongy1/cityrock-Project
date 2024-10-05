@@ -1,0 +1,40 @@
+{
+  "files": {
+    "main.css": "/static/css/main.85064393.css",
+    "main.js": "/static/js/main.747459e8.js",
+    "static/js/453.f9f0db38.chunk.js": "/static/js/453.f9f0db38.chunk.js",
+    "static/media/AIprofileimg.png": "/static/media/AIprofileimg.ab070eb0c9efb341947d.png",
+    "static/media/festival5.jpg": "/static/media/festival5.7e0fcaeff229f3ec38d5.jpg",
+    "static/media/AIprofileimg2.png": "/static/media/AIprofileimg2.5272dcb5020a51a349e6.png",
+    "static/media/aiprofilecreate.png": "/static/media/aiprofilecreate.5d3f9aec05ec14bee96b.png",
+    "static/media/aiprofilecreate3.png": "/static/media/aiprofilecreate3.51d618213d477b44b6df.png",
+    "static/media/aiprofilecreate2.png": "/static/media/aiprofilecreate2.da71e995fdd8bc97050a.png",
+    "static/media/aiprofilecreate4.png": "/static/media/aiprofilecreate4.8979dcc5d57bf556ef37.png",
+    "static/media/aiprofileex1.png": "/static/media/aiprofileex1.aefdc4e0b0cdf0ff0501.png",
+    "static/media/festival2.png": "/static/media/festival2.6b6135e95fe750f82cb5.png",
+    "static/media/festival4.png": "/static/media/festival4.178c805387ee4d54fa2b.png",
+    "static/media/aiprofileex.png": "/static/media/aiprofileex.180f27efde6dfaeb2d09.png",
+    "static/media/festival3.png": "/static/media/festival3.3592d64c0b8bed349d34.png",
+    "static/media/festival1.png": "/static/media/festival1.2d8df1216ee1dea65158.png",
+    "static/media/AIprofileimg4.jpg": "/static/media/AIprofileimg4.00504f5c8473a81e6404.jpg",
+    "static/media/keyword_009.jpg": "/static/media/keyword_009.c0aece1d1d41af32b39f.jpg",
+    "static/media/AIprofileimg3.jpg": "/static/media/AIprofileimg3.1d6650ecb4c15ad6155b.jpg",
+    "static/media/AIprofilemain.png": "/static/media/AIprofilemain.c30f89b4ae738c7e9dc5.png",
+    "static/media/keyword_007.jpg": "/static/media/keyword_007.96d67c56634064522297.jpg",
+    "static/media/keyword_006.jpg": "/static/media/keyword_006.c54677552992645194fa.jpg",
+    "static/media/keyword_003.png": "/static/media/keyword_003.00502461b17c0f0a7667.png",
+    "static/media/keyword_002.png": "/static/media/keyword_002.97f52feea66229b1fa4b.png",
+    "static/media/keyword_001.png": "/static/media/keyword_001.78d626a67221ca102e23.png",
+    "static/media/keyword_005.png": "/static/media/keyword_005.d6d055f21b1edafe3f88.png",
+    "static/media/keyword_004.png": "/static/media/keyword_004.c81ecf9a2e9347d5cb91.png",
+    "static/media/keyword_008.png": "/static/media/keyword_008.c35d23cbde33a0d73eb4.png",
+    "index.html": "/index.html",
+    "main.85064393.css.map": "/static/css/main.85064393.css.map",
+    "main.747459e8.js.map": "/static/js/main.747459e8.js.map",
+    "453.f9f0db38.chunk.js.map": "/static/js/453.f9f0db38.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.85064393.css",
+    "static/js/main.747459e8.js"
+  ]
+}
