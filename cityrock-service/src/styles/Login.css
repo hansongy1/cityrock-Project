@@ -1,0 +1,126 @@
+/* Login.css */
+
+.login-container {
+    width: 324px;
+    margin: 0px 33px 0px 33px;
+}
+
+.login-container h1 {
+    /* text-align: center; 가운데 정렬 */
+    font-size: 24px;
+    margin: 0 auto;
+    padding: 56px 0px 28px;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container form input {
+    width: 324px;
+    height: 46px;
+    box-sizing: border-box; /* 컨테이너에 맞게 맞춤 */
+    font-size: 12px;
+    padding: 0px 12px;
+    border: 1.5px solid #D7D7D7;
+    margin-bottom: 12px;
+    border-radius: 10px;
+}
+
+/* 눈 아이콘 */
+.password-box {
+    position: relative;
+    width: 339.6px;
+    display: flex;
+}
+
+.password-box input {
+    width: 100%;
+    border-radius: 0;
+}
+
+.password-box svg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #A7A7A7;
+    margin-right: 22px;
+    width: 24px; /* 원하는 너비 설정 */
+    height: 24px; /* 원하는 높이 설정 */
+}
+
+/* 로그인 상태 유지 */
+.login-container form label {
+    display: flex;
+    color: #333;
+    margin-top: 5px;
+    margin-left: 6px;
+    margin-bottom: 65px;
+}
+
+/* 로그인 상태 유지 */
+input[type=checkbox] {
+    accent-color: #5E6871;
+}
+
+input#remeber-check {
+    margin: 0;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    /* color: #5E6871; */
+    border: 5;
+    border-radius: 0;
+}
+
+.login-container form label p {
+    height: 12px;
+    font-size: 12px;
+    margin: 0;
+    padding-top: 1px;
+    padding-left: 8px;
+    color: #504F4F;
+    /* background-color: rgb(253, 223, 228); */
+}
+
+/* 이메일/비밀번호 찾기 및 회원가입 */
+section.find-container {
+    display: flex;
+    margin: 0 auto;
+}
+
+section.find-container p {
+    margin: 0;
+    font-size: 12px;
+    color: #4A4949;
+}
+
+div.find-line {
+    width: 0.8px;
+    height: 13px;
+    margin: 1.5px 7px;
+    background-color: #4A4949;
+}
+
+.login-container form button {
+    height: 59px;
+    color: #fff;
+    background-color: #A3A4B0;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 21px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.login-container form input:hover {
+    border-color: #000;
+}
+
+.login-container form button:hover {
+    background-color: #000;
+}

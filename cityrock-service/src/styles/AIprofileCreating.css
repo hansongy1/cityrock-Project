@@ -1,0 +1,107 @@
+.profile-creating-container {
+  text-align: center;
+}
+
+.profile-creating-container .logo {
+  width: 170px;
+  height: 65px;
+  margin-bottom: 0px;
+}
+
+.profile-ing {
+  display: flex;
+  transform: translateX(100px);
+}
+
+.profile-status {
+  position: relative;
+}
+
+.profile-text {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.dots-container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: -1px;
+}
+
+.dot {
+  font-size: 60px;
+  opacity: 0; 
+  transform: scale(0.5);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.red {
+  color: #E20000;
+}
+
+.yellow {
+  color: #FFC700;
+}
+
+.blue {
+  color: #2217A0;
+}
+
+.imging {
+  font-size: 14px;
+  color: #5E6871;
+  font-weight: 400;
+  transform: translateY(-30px);
+}
+
+/* 캐러셀 이미지가 보이는 부분 조정 */
+.profile-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible; 
+  max-width: 100%; 
+  height: auto;
+}
+
+/* 중앙 이미지 및 양옆 이미지 크기와 간격 조정 */
+.carousel .carousel-image {
+  border-radius: 20px;
+  transition: transform 0.5s ease;
+  height: 355px; /* 이미지의 세로 길이를 400px로 고정 */
+  object-fit: cover; /* 이미지가 세로 크기에 맞게 잘림 없이 표시되도록 */
+}
+
+.carousel .slide.selected .carousel-image {
+  transform: scale(1.0); /* 중앙 이미지 확대 */
+}
+
+.carousel .slide .carousel-image {
+  transform: scale(0.9); /* 양 옆 이미지 축소 */
+}
+
+/* 버튼 및 기타 스타일 */
+.time-notice {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 20px 0;
+}
+
+.hide-button {
+  background-color: #181818;
+  height: 60px;
+  width: 344px;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-size: 18px;
+  border: 0;
+  font-weight: 600;
+  margin-top: 15px;
+}

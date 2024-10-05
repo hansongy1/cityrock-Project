@@ -1,0 +1,42 @@
+.aipictureuplode .pictureuplode{
+  font-size: 26px;
+  font-weight: 700;
+  margin-left: 128px;
+  margin-bottom: 20px;
+  margin-top: 0px;
+}
+
+.aiexample{
+  width: 300px;
+  margin-left: 40px;
+}
+
+.aiexample1{
+  width: 300px;
+  margin-left: 40px;
+}
+
+.ait, .ait1 {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 13px;
+  text-align: center; /* 글씨를 가운데로 정렬 */
+}
+
+.ait1{
+  color: #f86262;
+}
+
+
+.upload-button{
+  background-color: #181818;
+  height: 60px;
+  width: 344px;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-size: 18px;
+  border: 0px solid;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-left: 23px;
+}

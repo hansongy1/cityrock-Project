@@ -1,0 +1,38 @@
+.ai-profile-container{
+  margin-left: 25px;
+}
+.logo{
+  width: 200px;
+  height: 80px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.profile-description{
+  transform: translate(0%, -100px);
+  background-color: white;
+  box-shadow: 1px 10px 15px rgba(0,0,0,0.2);
+  padding-top: 1px;
+  padding-bottom: 10px;
+  width: 95%;
+  border-radius: 0px 0px 25px 25px;
+}
+
+.aipst1 {
+  margin-bottom: 10px;
+}
+
+.profile-description .aipst1, .aipst{
+  margin-top: 12px;
+  margin-left: 18px;
+}
+
+.aipst {
+  font-weight: 500;
+  color: #303030;
+  margin-bottom: 16px;
+}
+
+.aipim {
+  height: 520px;
+  border-radius: 25px;
+}
