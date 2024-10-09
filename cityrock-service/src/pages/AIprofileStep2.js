@@ -14,6 +14,10 @@ const AIprofileStep2 = () => {
     navigate(-1); // 뒤로 가기 기능
   };
 
+  const handleCreatingClick = () => {
+    navigate('/AIprofileCreating'); // 생성 중 페이지 가기 기능
+  };
+
   // 파일 선택 시 실행되는 함수
   const handleImageChange = (event) => {
     const file = event.target.files[0]; // 파일 선택
@@ -86,7 +90,7 @@ const AIprofileStep2 = () => {
       />
 
       {/* 업로드 버튼 */}
-      <button onClick={handleUploadButtonClick} className="upload-button">
+      <button onClick={handleCreatingClick} className="upload-button">
         사진 업로드 하기
       </button>
     </div>

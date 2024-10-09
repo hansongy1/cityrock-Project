@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import LoGo from '../assets/image-45.png';
 import FloatingButton from '../components/FloatingButton';
 import { FaStar, FaHeart } from 'react-icons/fa';
 
@@ -46,7 +45,6 @@ const ReviewList = () => {
   return (
     <div className="review-list">
       {/* 헤더 포함 상단 레이아웃 */}
-      <img src={LoGo} alt='LoGo' className="logo-image" />
       <p className="header-title">축제 후기</p>
       {/* 리뷰 목록 */}
       {reviews.length === 0 ? (

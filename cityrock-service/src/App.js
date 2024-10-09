@@ -24,6 +24,7 @@ import InitialUser from './pages/InitialUser';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AfterHome from './components/AfterHome';
+import ArCamera from './pages/ArCamera';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
             <Route path="/reviewlist" element={<Reviewlist />} />
             <Route path="/reviewfav" element={<Reviewfav/>} />
             <Route path="/afterHome" element={<AfterHome />} />
+            <Route path="/arcamera" element={<ArCamera />} />
           </Routes>
         </section>
       </div>

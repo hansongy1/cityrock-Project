@@ -1,5 +1,4 @@
 h2 {
-  font-weight: 900;
   font-size: 24px;
   margin: 0px;
 }
@@ -54,19 +53,24 @@ input[placeholder]{
   margin-top: 25px;
 }
 
+.register-button:hover {
+  background-color: #000;
+}
+
 .loginq{
   text-align: center;
   color: #A3A4B0;
-  font-size: 14px;
+  font-size: 13px;
   margin-right: 25px;
   margin-top: 5px;
-
+  cursor: pointer;
 }
 
 .loginq > span{
   color: #A3A4B0;
-  font-weight: 800;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
 }
 
 /* styles/Register.css */

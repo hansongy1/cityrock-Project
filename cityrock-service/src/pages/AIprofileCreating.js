@@ -68,7 +68,7 @@ const AIProfileCreating = () => {
             showStatus={false} // 상태 숨기기
             infiniteLoop={true} // 무한 루프
             autoPlay={true} // 자동 재생
-            interval={4000} // 4초마다 이미지 넘기기
+            interval={3000} // 4초마다 이미지 넘기기
             stopOnHover={false} // 마우스 호버 시 일시정지하지 않음
             swipeable={true} // 스와이프 가능
             centerMode={true} // 중앙에 이미지 배치

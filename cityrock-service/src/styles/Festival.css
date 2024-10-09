@@ -102,10 +102,10 @@
 }
 
 .festival-info .location p:first-child {
-  font-weight: 700; /* "장소" 텍스트만 굵게 설정 */
+  font-weight: 500; /* "장소" 텍스트만 굵게 설정 */
   margin-right: 3px;
 }
 
 .festival-info .bold-text {
-  font-weight: bold;
+  font-weight: 500;
 }
