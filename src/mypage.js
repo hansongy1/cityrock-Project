@@ -7,7 +7,15 @@ import { FaUserEdit } from "react-icons/fa";
 import { FaClipboardList } from "react-icons/fa";
 import pic from './assets/Group-205.png'
 
+
 function App() {
+
+  const navigate = useNavigate();
+
+  const handleRegisterClick = () => {
+    navigate('/register'); // 버튼 클릭 시 '/register'로 이동
+  };
+
     return (
       <div className='container'>
         <section className='contents'>
@@ -18,7 +26,7 @@ function App() {
               <p>로그인을 해주세요</p>
             </div>
             <div>
-            <button className="custom-button" style={{ marginRight: '10px' }}>회원가입</button>
+            <button onClick={handleRegisterClick} className="custom-button" style={{ marginRight: '10px' }}>회원가입</button>
             <button className="custom-button">로그인</button>
             </div>
             </div>
