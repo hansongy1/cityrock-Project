@@ -18,6 +18,8 @@
 }
 
 .profile-text {
+  margin-top: 22px;
+  margin-bottom: 30px;
   font-size: 28px;
   font-weight: bold;
 }
@@ -90,7 +92,7 @@
 .time-notice {
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color:  #181818;
   margin: 20px 0;
 }
 

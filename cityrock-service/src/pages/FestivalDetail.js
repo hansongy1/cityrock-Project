@@ -8,6 +8,7 @@ import image4 from '../assets/festival4.png';
 import image5 from '../assets/festival5.jpg';
 import review from '../assets/review.png'; 
 import dot from '../assets/dot.png';
+import { useNavigate } from 'react-router-dom';
 
 const festivalDetails = [
   {
@@ -60,6 +61,12 @@ const festivalDetails = [
 ];
 
 const FestivalDetail = () => {
+
+  const navigate = useNavigate();
+  const handleReviewClick = () => {
+    navigate('/review'); // 버튼 클릭 시 '/review'로 이동
+  };
+
   const { id } = useParams();
   const festival = festivalDetails.find(
     (festival) => festival.id === parseInt(id)
@@ -77,7 +84,7 @@ const FestivalDetail = () => {
           alt={festival.title}
           className="festival-image-detail"
         />
-        <div className="review-image">
+        <div className="review-image"  onClick={handleReviewClick}>
           <img src={review} alt="축제 후기" />
           <p>후기</p>
         </div>

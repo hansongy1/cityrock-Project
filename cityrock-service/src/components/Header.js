@@ -15,12 +15,20 @@ const Header = () => {
     setMenuOpen(!isMenuOpen);
   };
 
-  const pathsToHideHeader = ['/aiprofile', '/AIprofileStep1', '/AIprofileStep2', '/AIprofilecreating'];
+  // 경로명을 모두 소문자로 일관되게 맞춤
+  const pathsToHideHeader = [
+    '/aiprofile',
+    '/aiprofilestep1',
+    '/aiprofilestep2',
+    '/aiprofilecreating', // 대소문자 일치하도록 수정
+    '/arcamera',
+  ];
 
-  if (pathsToHideHeader.includes(location.pathname)) {
-    return null; // 아무것도 렌더링하지 않음
+  // 경로를 소문자로 변환해서 비교
+  if (pathsToHideHeader.includes(location.pathname.toLowerCase())) {
+    return null; // 헤더 숨김
   }
-  
+
   return (
     <header className="App-header">
       <section className="App-menu" onClick={toggleMenu}>
@@ -53,13 +61,13 @@ const Header = () => {
             <Link to="/aiprofile">AI 프로필</Link>
           </li>
           <li>
-            <Link to="/">AR 카메라</Link>
+            <Link to="/arcamera">AR 카메라</Link>
           </li>
           <li>
-            <Link to="/">마이페이지</Link>
+            <Link to="/mypage">마이페이지</Link>
           </li>
           <li>
-            <Link to="/login">로그인(임시)</Link>
+            <Link to="/login">로그인</Link>
           </li>
         </ul>
       </nav>
