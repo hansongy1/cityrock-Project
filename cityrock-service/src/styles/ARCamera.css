@@ -1,42 +1,99 @@
-.aipictureuplode .pictureuplode{
-  font-size: 26px;
-  font-weight: 700;
-  margin-left: 128px;
-  margin-bottom: 20px;
-  margin-top: 0px;
+.ar-camera-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
 }
 
-.aiexample{
-  width: 300px;
-  margin-left: 40px;
+.camera-preview {
+  position: relative; /* 오버레이를 위해 relative 설정 */
+  width: 100%;
+  max-width: 400px;
+  height: 500px;
+  object-fit: cover;
+  overflow: hidden; /* 오버플로우 숨김 */
 }
 
-.aiexample1{
-  width: 300px;
-  margin-left: 40px;
+.selected-character {
+  position: absolute; /* 오버레이처럼 겹쳐지게 함 */
+  bottom: 20px; /* 화면 하단에 배치 */
+  left: 50%;
+  transform: translateX(-50%); /* 가운데 정렬 */
+  width: 100px;
+  height: 100px;
+  pointer-events: none; /* 캐릭터 클릭 방지 */
 }
 
-.ait, .ait1 {
-  font-size: 14px;
-  font-weight: 400;
-  margin-bottom: 13px;
-  text-align: center; /* 글씨를 가운데로 정렬 */
-}
-
-.ait1{
-  color: #f86262;
-}
-
-
-.upload-button{
-  background-color: #181818;
-  height: 60px;
-  width: 344px;
-  border-radius: 10px;
-  color: #FFFFFF;
-  font-size: 18px;
-  border: 0px solid;
-  font-weight: 600;
+.ar-camera-header {
+  display: flex;
+  gap: 42px;
   margin-top: 10px;
-  margin-left: 23px;
+  margin-bottom: 23px;
+  justify-content: center;
 }
+
+.header-icon {
+  width: 33px;
+  height: 34px;
+}
+
+.camera-video {
+  width: 100%;
+  max-width: 400px;
+  height: 500px;
+  object-fit: cover;
+  transform: scaleX(-1); /* 좌우 반전 해제 */
+}
+
+/* 캐릭터 선택 섹션에 가로 스크롤 가능하게 */
+.character-selection {
+  display: flex;
+  width: 350px;
+  height: 90px;
+  overflow-x: auto; /* 가로 스크롤 가능하게 설정 */
+  white-space: nowrap; /* 줄바꿈 방지하여 가로로 나열 */
+  background-color: #FFFDEA; /* 배경색 추가 */
+  gap: 20px; /* 캐릭터 간격 설정 */
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.character-selection img {
+  width: 70px;
+  height: 60px;
+  cursor: pointer;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  transition: transform 0.3s ease, border 0.3s ease;
+  margin-top: 10px;
+}
+
+.character-selection img:hover {
+  background-color: #FFF8BC;
+}
+
+/* 격자 오버레이 스타일 */
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* 클릭 불가 상태 */
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+  background-size: 120px 125px; /* 격자 크기 조정 */
+  z-index: 2; /* 격자가 캐릭터보다 위에 표시되도록 설정 */
+}
+
+.timer-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  color: white;
+  font-weight: bold;
+  z-index: 10;
+}
+
