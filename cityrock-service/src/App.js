@@ -9,8 +9,8 @@ import AIprofile from './pages/AIprofile';
 import AIprofileStep1 from './pages/AIprofileStep1';
 import AIprofileStep2 from './pages/AIprofileStep2';
 import AIprofileCreating from './pages/AIprofileCreating';
-import Mypage from './pages/mypage';
-import LoginMypage from './pages/LoginMypage';
+import MyPage from './pages/MyPage';
+import LoginMyPage from './pages/LoginMyPage';
 import Profile from './pages/profile';
 import Noticelist from './pages/noticelist.js';
 import Notice1 from './pages/Notice1.js';
@@ -43,8 +43,8 @@ function App() {
             <Route path="/aiprofilestep1" element={<AIprofileStep1 />} />
             <Route path="/aiprofilestep2" element={<AIprofileStep2 />} />
             <Route path="/aiprofilecreating" element={<AIprofileCreating />} />
-            <Route path="/mypage" element={<Mypage />} />
-            <Route path="/loginmypage" element={<LoginMypage />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/loginmypage" element={<LoginMyPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/noticelist" element={<Noticelist />} />
             <Route path="/notice1" element={<Notice1 />} />

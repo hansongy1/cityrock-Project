@@ -14,11 +14,10 @@ const Login = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);  // showPassword 상태를 반전시킴
     };
-    
-    const handleRegisterClick = () => {
-    navigate('/register'); // 버튼 클릭 시 '/register'로 이동
-};
 
+    const handleRegisterClick = () => {
+        navigate('/register'); // 버튼 클릭 시 '/register'로 이동
+    };
     
 
     // 로그인 요청 처리 함수
@@ -35,14 +34,16 @@ const Login = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(credentials),  // JSON 형식으로 데이터 전송
+                credentials: 'include', // 쿠키 포함
             });
 
             const data = await response.json();
             console.log(data);  // 로그인 결과 확인
             if (response.ok) {
                 alert("로그인 성공!");  // 성공 시 알림
-                // 로그인 성공 시 AfterHome.js(src/components/AfterHome.js)로 리다이렉트
-                navigate('/AfterHome');  // 로그인 성공 시 /home-login 경로로 리다이렉트
+                // 로그인 성공 시 사용자 이름을 로컬 스토리지에 저장
+                localStorage.setItem('username', data.username);
+                navigate('/Loginmypage');  // MyPage로 리디렉션
             } else {
                 alert("로그인 실패: " + data.message);  // 실패 시 알림
             }

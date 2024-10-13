@@ -1,30 +1,16 @@
+// MyPage.js
 import React from 'react';
 // import Header from "../components/Header";
 import '../styles/main.css'; /* 가운데 정렬 */
+import '../styles/MyPageReviews.css'; /* 가운데 정렬 */
 import { FaBookmark } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
 import { FaUserEdit } from "react-icons/fa";
 import { FaClipboardList } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 import pic from '../assets/Group-205.png'
-import { useNavigate } from 'react-router-dom';
 
 function App() {
-
-  const navigate = useNavigate();
-
-  const handleRegisterClick = () => {
-    navigate('/register'); // 버튼 클릭 시 '/register'로 이동
-  };
-  const handleLoginClick = () => {
-    navigate('/login'); // 버튼 클릭 시 '/login'로 이동
-  };
-  const handleprofileClick = () => {
-    navigate('/profile'); // 버튼 클릭 시 '/profile'로 이동
-  };
-
-  const handlenoticelistClick = () => {
-    navigate('/noticelist'); // 버튼 클릭 시 '/noticelist'로 이동
-  };
     return (
       <div className='container'>
         <section className='contents'>
@@ -34,13 +20,20 @@ function App() {
               <p>로그인을 해주세요</p>
             </div>
             <div>
-            <button onClick={handleRegisterClick} className="custom-button" style={{ marginRight: '10px' }}>회원가입</button>
-            <button onClick={handleLoginClick} className="custom-button">로그인</button>
+              {/* 10.07 회원가입, 로그인 경로 추가 */}
+              <Link to="/register">
+                <button className="custom-button" style={{ marginRight: '10px' }}>
+                  회원가입
+                </button>
+              </Link>
+              <Link to="/login">
+                <button className="custom-button">로그인</button>
+              </Link>
             </div>
             </div>
             <p style={{ fontSize: '16px', display: 'flex', alignItems: 'center', lineHeight: '1', marginBottom: '20px' }}>
               <FaUserEdit className="icon" size="20" color="Gray" style={{ marginLeft: '72px' }} />
-              <span onClick={handleprofileClick} style={{ marginLeft: '8px', verticalAlign: 'middle', fontSize: '16px' }}>프로필 편집</span>
+              <span style={{ marginLeft: '8px', verticalAlign: 'middle', fontSize: '16px' }}>프로필 편집</span>
               <FaAngleRight className="icon" size="20" color="Gray" style={{ marginLeft: '120px' }}/>
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -56,7 +49,7 @@ function App() {
             </div>
             <p style={{ fontSize: '16px', display: 'flex', alignItems: 'center', lineHeight: '1' }}>
               <FaClipboardList className="icon" size="20" color="Gray" style={{ marginLeft: '70px' }} />
-              <span onClick={handlenoticelistClick} style={{ marginLeft: '10px', verticalAlign: 'middle', fontSize: '16px' }}>공지사항</span>
+              <span style={{ marginLeft: '10px', verticalAlign: 'middle', fontSize: '16px' }}>공지사항</span>
               <FaAngleRight className="icon" size="20" color="Gray" style={{ marginLeft: '140px' }}/>
             </p>
         </section>

@@ -1,17 +1,13 @@
-/* App.js */
+// LoginMyPage.js
 import React, { useEffect, useState } from 'react';
-// import { BrowserView, MobileView } from 'react-device-detect' /* 브라우저, 모바일 */
-// import Header from "../components/Header";
 import '../styles/main.css'; /* 가운데 정렬 */
-import { FaHeart } from "react-icons/fa";
-import { FaAngleRight } from "react-icons/fa";
-import { FaUserEdit } from "react-icons/fa";
-import { FaClipboardList } from "react-icons/fa";
-import { FaTimesCircle } from "react-icons/fa";
+import '../styles/MyPageReviews.css';
+import { FaHeart, FaAngleRight, FaUserEdit, FaClipboardList, FaTimesCircle } from "react-icons/fa" // 10.08 수정 - 통합
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import Modal from 'react-modal';
 import pic from '../assets/Group-205.png'
 import pic1 from '../assets/Group-271.png'
+import { useNavigate } from 'react-router-dom';
 
 
 Modal.setAppElement('#root');
@@ -19,6 +15,40 @@ Modal.setAppElement('#root');
 export default function App() {
   const [showModal, setShowModal] = useState(false);
   const [image, setImage] = useState(null); 
+  const [username, setUsername] = useState(''); // 사용자 이름 상태 - 10.08 수정
+  const navigate = useNavigate(); // useState 훅 사용 - 10.08 수정
+
+  // logout 처리 - 10.08 수정
+  const handleLogout = async () => {
+    const username = localStorage.getItem('username');
+    if (!username) {
+        alert('로그인 상태가 아닙니다.');
+        navigate('/login');
+        return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:8080/api/users/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include'  // 인증된 요청을 위해 추가
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        alert("로그아웃 성공");
+        localStorage.removeItem('username'); // 로컬 스토리지에서 사용자 이름 삭제
+        navigate('/login'); // 로그인 페이지로 리디렉션
+      } else {
+        alert("로그아웃 실패");
+      }
+    } catch (error) {
+      console.error('Error: ', error);
+      alert("서버 오류로 로그아웃 할 수 없습니다.");
+    }
+  };
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -28,9 +58,48 @@ export default function App() {
     setShowModal(false);
   };
 
-  const handleConfirmWithdraw = () => {
-    alert('탈퇴되었습니다.');
-    setShowModal(false);
+  // 탈퇴 처리 - 10.08 수정
+  const handleConfirmWithdraw = async () => {
+
+    // 로그인 여부 확인
+    const storedUsername = localStorage.getItem('username');
+    if (!storedUsername) {
+        alert('로그인되지 않았습니다. 로그인 페이지로 이동합니다.');
+        navigate('/login');
+        return;
+    }
+    
+    try {
+        const response = await fetch('http://localhost:8080/api/users/delete-account', {
+            method: 'POST',
+            credentials: 'include', // 인증된 요청을 위해 추가
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            alert(data.message || '탈퇴되었습니다.');
+            localStorage.removeItem('username'); // 로컬 스토리지에서 사용자 이름 삭제
+            navigate('/'); // 로그인 페이지로 리디렉션
+        } else {
+          // const errorData = await response.json();
+          // alert('탈퇴 실패: ' + (errorData.message || '알 수 없는 오류'));
+          // 서버가 JSON 응답을 보내지 않을 수도 있으므로, 안전하게 처리
+          let errorMessage = '탈퇴 실패';
+          try {
+              const errorData = await response.json();
+              errorMessage = errorData.message || errorMessage;
+          } catch (e) {
+              // JSON 파싱 실패 시 기본 메시지 사용
+          }
+          alert('탈퇴 실패: ' + errorMessage);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('서버 오류로 탈퇴할 수 없습니다.');
+    }
   };
 
   const handleImageChange = (event) => {
@@ -43,14 +112,31 @@ export default function App() {
         };
         reader.readAsDataURL(file);
       }
-    };
-
-    useEffect(() => {
-      const storedImage = localStorage.getItem('profileImage');
-      if (storedImage) {
-          setImage(storedImage); // localStorage에서 이미지 불러오기
-      }
-    }, []);
+  };
+  
+  useEffect(() => {
+    // 로컬 스토리지에서 사용자 이름 가져오기 - 10.08 수정
+    const storedUsername = localStorage.getItem('username');
+    if (!storedUsername) {
+      alert('로그인되지 않았습니다. 로그인 페이지로 이동합니다.');
+      navigate('/login'); // 로그인 페이지로 리디렉션
+      return;
+    } else {
+        setUsername(storedUsername); // 사용자 이름 상태 업데이트
+    }
+      
+    // if (storedUsername) {
+    //   setUsername(storedUsername); // 사용자 이름 상태 업데이트
+    // } else {
+    //   navigate('/login'); // 로그인이 안 된 경우 로그인 페이지로 리디렉션 - 10.09 수정
+    // }
+      
+      // 기존
+    const storedImage = localStorage.getItem('profileImage');
+    if (storedImage) {
+        setImage(storedImage); // localStorage에서 이미지 불러오기
+    }
+  }, []);
 
   const customStyles = {
     overlay: {
@@ -70,24 +156,16 @@ export default function App() {
     <div className='container'>
       <section className='contents'>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', minHeight: '250px'}}> 
-        <img 
-            src={image || pic} 
-            alt='' 
-            width="100" 
-            height="100" 
+          <img src={image || pic} alt='' width="100" height="100" 
             style={{ borderRadius: '50%' }} // 동그랗게 보이도록 설정
           />
-          <input 
-            type="file" 
-            accept="image/*" 
-            onChange={handleImageChange} 
+          <input type="file" accept="image/*" onChange={handleImageChange} 
             style={{ display: 'none' }} // 숨김 처리
             id="fileInput" // ID 추가
           />
-          
-        
           <div style={{ fontSize: '20px', fontWeight: 'bold', marginTop: '-10px' }}>
-            <p>name</p>
+            {/* <p>name</p> */}
+            <p>{username || '사용자 이름'}</p> {/* 사용자 이름 표시 - 10.08 수정 */}
           </div>
           <div>
             <p style={{ fontSize: '14px', display: 'flex', alignItems: 'center', lineHeight: '1', marginTop: '-5px' }}>
@@ -132,7 +210,10 @@ export default function App() {
           </div>
           <p style={{ fontSize: '16px', display: 'flex', alignItems: 'center', lineHeight: '1', marginBottom: '20px' }}>
             <RiLogoutBoxRLine className="icon" size="20" color="Gray" style={{ marginLeft: '70px' }} />
-            <span style={{ marginLeft: '10px', verticalAlign: 'middle', fontSize: '16px'}}>로그아웃</span>
+            {/* 10.08 수정 */}
+            <span style={{ marginLeft: '10px', verticalAlign: 'middle', fontSize: '16px'}} onClick={handleLogout}>
+              로그아웃
+            </span>
           </p>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div style={{ width: '70%', height: '0.7px', backgroundColor: 'lightGray', marginBottom: '3px' }}></div>
@@ -163,12 +244,6 @@ export default function App() {
               </div>
             </Modal>
           </div>
-        {/* <BrowserView>
-          브라우저 뷰입니다.
-        </BrowserView>
-        <MobileView>
-          <p>모바일뷰입니다.</p>
-        </MobileView> */}
       </section>
     </div>
   );
