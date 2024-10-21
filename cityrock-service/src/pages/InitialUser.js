@@ -102,11 +102,11 @@ const InitialUser = () => {
                 },
                 "완료"
             ),
-        React.createElement(
-            "div",
-            null,
-            React.createElement("h2", null, `가장 선호된 항목: ${mostPreferredItemName}`)
-        )
+        // React.createElement(
+        //     "div",
+        //     null,
+        //     React.createElement("h2", null, `가장 선호된 항목: ${mostPreferredItemName}`)
+        // )
     );
 };
 
