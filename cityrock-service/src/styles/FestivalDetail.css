@@ -36,13 +36,13 @@
   align-items: center; /* 세로 방향으로 중앙 정렬 */
 }
 
-.review-image {
+.reviewImage {
   position: absolute; /* 위치를 이미지 위에 고정 */
   transform: translate(1000%, -140%); /* 위치를 살짝 조정 */
   z-index: 2; /* h1 요소 위에 위치하도록 설정 */
 }
 
-.review-image p{
+.reviewImage p{
   margin-top: 0;
   margin-bottom: 0;
   margin-left: 6px;

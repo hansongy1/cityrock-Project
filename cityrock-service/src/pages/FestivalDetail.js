@@ -84,7 +84,7 @@ const FestivalDetail = () => {
           alt={festival.title}
           className="festival-image-detail"
         />
-        <div className="review-image"  onClick={handleReviewClick}>
+        <div className="reviewImage"  onClick={handleReviewClick}>
           <img src={review} alt="축제 후기" />
           <p>후기</p>
         </div>
