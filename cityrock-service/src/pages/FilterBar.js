@@ -6,9 +6,23 @@ const FilterBar = () => {
     <div className="filter-bar">
       <select className="filter-select">
         <option>지역</option>
-        <option>성동구</option>
-        <option>성북구</option>
-        <option>서초구</option>
+        <option>서울</option>
+        <option>인천</option>
+        <option>경기도</option>
+        <option>강원도</option>
+        <option>충청남도</option>
+        <option>충청북도</option>
+        <option>대전</option>
+        <option>전라북도</option>
+        <option>전라남도</option>
+        <option>광주</option>
+        <option>경상북도</option>
+        <option>경상남도</option>
+        <option>대구</option>
+        <option>경상남도</option>
+        <option>부산</option>
+        <option>울산</option>
+        <option>제주도</option>
       </select>
       <select className="filter-select">
         <option>카테고리</option>
