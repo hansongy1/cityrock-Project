@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Header.css';
 import '../styles/main.css';
@@ -10,25 +10,37 @@ import CloseIcon from '../assets/close.png';
 const Header = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 추가
+
+  // 로그인 여부 확인
+  useEffect(() => {
+    const username = localStorage.getItem('username'); // 로컬 스토리지에서 username 확인
+    if (username) {
+      setIsLoggedIn(true); // 로그인 상태라면 true로 설정
+    } else {
+      setIsLoggedIn(false); // 아니면 false로 설정
+    }
+  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
 
-  // 경로명을 모두 소문자로 일관되게 맞춤
   const pathsToHideHeader = [
-    '/aiprofile',
-    '/aiprofilestep1',
-    '/aiprofilestep2',
-    '/aiprofilecreating', // 대소문자 일치하도록 수정
-    '/arcamera',
+    '/aiprofile', 
+    '/AIprofileStep1', 
+    '/AIprofileStep2', 
+    '/AIprofilecreating',
+    // '/festival/:id' // FestivalDetail.js의 경로
   ];
 
-  // 경로를 소문자로 변환해서 비교
-  if (pathsToHideHeader.includes(location.pathname.toLowerCase())) {
-    return null; // 헤더 숨김
-  }
+  // 경로가 '/festival/'로 시작하고 '/festival' 자체가 아닌 경우
+  const isHeaderHidden = pathsToHideHeader.includes(location.pathname) || (location.pathname.startsWith('/festival/') && location.pathname !== '/festival');
 
+  if (isHeaderHidden) {
+    return null; // 헤더를 숨김
+  }
+  
   return (
     <header className="App-header">
       <section className="App-menu" onClick={toggleMenu}>
@@ -64,7 +76,12 @@ const Header = () => {
             <Link to="/arcamera">AR 카메라</Link>
           </li>
           <li>
-            <Link to="/mypage">마이페이지</Link>
+            {/* 로그인 여부에 따라 마이페이지 경로 변경 */}
+            {isLoggedIn ? (
+              <Link to="/loginmypage">마이페이지</Link> // 로그인 시
+            ) : (
+              <Link to="/mypage">마이페이지</Link> // 비로그인 시
+            )}
           </li>
         </ul>
       </nav>
