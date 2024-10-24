@@ -27,6 +27,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByEmail(username);
+    }
+    
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -59,5 +63,13 @@ public class UserService {
 
         // 4. 유저 삭제
         userRepository.delete(user);
+
+        // 5. 로그 확인
+        System.out.println("유저 삭제 완료: " + user.getEmail());
+    }
+
+    // Ver13 추가
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }

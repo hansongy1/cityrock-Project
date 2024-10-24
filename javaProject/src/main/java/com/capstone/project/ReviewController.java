@@ -1,3 +1,4 @@
+// ReviewController.java
 package com.capstone.project;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,21 +80,23 @@ public class ReviewController {
                             @RequestParam("content") String content,
                             @RequestParam("keywords") List<String> keywords,
                             @RequestParam("imageFile") MultipartFile imageFile,
-                            Principal principal, Model model) {
+                            // Principal principal, Model model,
+                            HttpSession session, Model model) {
 
     	// 로그인된 사용자만 리뷰 작성 가능
-        if (principal == null) {
+        String username = (String) session.getAttribute("username");
+        if (username == null) {
             return "redirect:/login";  // 비로그인 사용자는 로그인 페이지로 리디렉트
         }
     	
         try {
             // 로그인된 사용자 정보 가져오기
-            String userEmail = principal.getName();
-            User user = userService.findByEmail(userEmail)
-                          .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + userEmail));
+            // String userEmail = principal.getName();
+            User user = userService.findByUsername(username)
+                          .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
             // 로그로 사용자 정보 확인
-            System.out.println("User email: " + userEmail);
+            System.out.println("User name: " + username);
             System.out.println("User ID: " + user.getId());
             
             // 리뷰 생성
