@@ -9,7 +9,7 @@ import AIprofile from './pages/AIprofile';
 import AIprofileStep1 from './pages/AIprofileStep1';
 import AIprofileStep2 from './pages/AIprofileStep2';
 import AIprofileCreating from './pages/AIprofileCreating';
-import MyPage from './pages/mypage';
+import MyPage from './pages/MyPage';
 import LoginMyPage from './pages/LoginMyPage';
 import Profile from './pages/profile';
 import Noticelist from './pages/noticelist.js';
