@@ -14,7 +14,7 @@ function MyPage() {
   const navigate = useNavigate(); // 라우팅을 위찬 navigate
   const [showModal, setShowModal] = useState(false);
   const [image, setImage] = useState(null); 
-  const [username, setUsername] = useState(''); // 사용자 이름 상태 - 10.08 수정
+  const [username] = useState(''); // 사용자 이름 상태 - 10.08 수정
   
   // logout 처리 - 10.08 수정
   const handleLogout = async () => {

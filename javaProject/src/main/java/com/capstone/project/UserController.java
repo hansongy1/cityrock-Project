@@ -9,12 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-// import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-// import org.springframework.stereotype.Controller;
-// import org.springframework.ui.Model;
-// import org.springframework.web.bind.annotation.CrossOrigin;
-// // import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +25,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
+// @Controller
+// @CrossOrigin(origins = "http://localhost:3000") // 프론트엔드 주소로 변경
 public class UserController {
 
     @Autowired
@@ -54,8 +50,7 @@ public class UserController {
         }
     }
 
-
-    // 10-09 수정
+    // 10-09 수정 - 안 되면 위에 있는 걸로 백
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
         try {
@@ -73,6 +68,9 @@ public class UserController {
             // 사용자 정보 가져오기
             User user = userService.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            
+            // 세션에 사용자 이름 저장
+            session.setAttribute("username", user.getUsername());
 
             // 성공 응답 준비
             Map<String, String> response = new HashMap<>();
@@ -92,7 +90,7 @@ public class UserController {
         }
     }
 
-    
+    // 10-09 수정
     // 탈퇴 엔드포인트 수정
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/delete-account")
