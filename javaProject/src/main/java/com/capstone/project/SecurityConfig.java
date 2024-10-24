@@ -55,12 +55,15 @@ public class SecurityConfig {
             //     // 그 외의 모든 요청은 인증 필요
             //     .anyRequest().authenticated()
             // )
+            
             // 요청에 대한 보안 설정
             .authorizeHttpRequests(authorize -> authorize
                 // 회원가입과 로그인 엔드포인트는 누구나 접근 가능
                 .requestMatchers("/api/users/register", "/api/users/login", "/api/users/logout", "/", "/login").permitAll()
                 // 탈퇴 엔드포인트는 인증된 사용자만 접근 가능
                 .requestMatchers("/api/users/delete-account").authenticated()
+                // 축제 API에 대해서도 모든 사용자 접근 허용
+                .requestMatchers("/api/festivals", "/api/festivals/**").permitAll()  // 여기를 추가!
                 // 그 외의 모든 요청은 인증 필요
                 .anyRequest().authenticated()
             )
