@@ -1,4 +1,4 @@
-// MyPage.js(LoginMyPage.js 합침)
+// MyPage.js(LoginMyPage.js 합쳤습니다!)
 import React, { useState, useEffect } from 'react';
 import '../styles/main.css'; /* 가운데 정렬 */
 import '../styles/MyPageReviews.css';
