@@ -28,10 +28,10 @@ const Header = () => {
 
   const pathsToHideHeader = [
     '/aiprofile',
-    '/aiprofilestep1',
-    '/aiprofilestep2',
-    '/aiprofilestep3',
-    '/aiprofilecreating', 
+    '/AIprofileStep1',
+    '/AIprofileStep2',
+    '/AIprofileStep3',
+    '/AIprofilecreating', 
     '/arcamera',
   ];
 
