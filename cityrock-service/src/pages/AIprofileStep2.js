@@ -15,7 +15,7 @@ const AIprofileStep2 = () => {
   };
 
   const handleCreatingClick = () => {
-    navigate('/AIprofileCreating'); // 생성 중 페이지 가기 기능
+    navigate('/AIprofileStep3'); // 생성 중 페이지 가기 기능
   };
 
   // 파일 선택 시 실행되는 함수
@@ -66,7 +66,7 @@ const AIprofileStep2 = () => {
         <p onClick={handleBackClick} className="back">
           &lt;
         </p>
-        <p className="step">2/2 Step</p>
+        <p className="step">2/3 Step</p>
       </div>
 
       <div className="pictureuplode">사진 업로드</div>

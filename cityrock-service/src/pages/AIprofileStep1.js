@@ -22,7 +22,7 @@ const AIprofileStep1 = () => {
     <div className="before-start-container">
       <div className='header'>
       <p onClick={handleBackClick} className='back'> &lt; </p>
-      <p className='step'>1/2 Step</p>
+      <p className='step'>1/3 Step</p>
       </div>
       <h2 className='Before-start'>시작하기 전</h2>
       <div className='subt'>무한한 프로필을 만나볼 수 있어요.</div>

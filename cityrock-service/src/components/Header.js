@@ -20,7 +20,8 @@ const Header = () => {
     '/aiprofile',
     '/aiprofilestep1',
     '/aiprofilestep2',
-    '/aiprofilecreating', // 대소문자 일치하도록 수정
+    '/aiprofilestep3',
+    '/aiprofilecreating', 
     '/arcamera',
   ];
 

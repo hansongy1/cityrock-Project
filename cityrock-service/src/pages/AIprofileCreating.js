@@ -57,8 +57,9 @@ const AIProfileCreating = () => {
           </div>
         </div>
         <p className="imging">
+        잠시만 기다려 주세요!
+          <br />
           지금 프로필 이미지를 생성 중입니다.
-          <br /> 알림을 켜두시면, 도시락이 완료 알림을 보내드려요!
         </p>
 
         {/* 캐러셀 */}
@@ -68,7 +69,7 @@ const AIProfileCreating = () => {
             showStatus={false} // 상태 숨기기
             infiniteLoop={true} // 무한 루프
             autoPlay={true} // 자동 재생
-            interval={3000} // 4초마다 이미지 넘기기
+            interval={3000} // 3초마다 이미지 넘기기
             stopOnHover={false} // 마우스 호버 시 일시정지하지 않음
             swipeable={true} // 스와이프 가능
             centerMode={true} // 중앙에 이미지 배치
@@ -91,9 +92,9 @@ const AIProfileCreating = () => {
           </Carousel>
         </div>
 
-        <p className="time-notice">23시간 후 프로필 이미지가 공개됩니다!</p>
+        <p className="time-notice">곧 프로필 이미지가 공개됩니다!</p>
         <button onClick={handleHideClick} className="hide-button">
-          화면 숨기기
+          생성하기
         </button>
       </div>
     </div>

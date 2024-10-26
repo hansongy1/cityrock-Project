@@ -8,6 +8,7 @@ import FestivalDetail from './pages/FestivalDetail';
 import AIprofile from './pages/AIprofile';
 import AIprofileStep1 from './pages/AIprofileStep1';
 import AIprofileStep2 from './pages/AIprofileStep2';
+import AIprofileStep3 from './pages/AIprofileStep3';
 import AIprofileCreating from './pages/AIprofileCreating';
 import MyPage from './pages/mypage';
 import LoginMyPage from './pages/LoginMypage';
@@ -42,6 +43,7 @@ function App() {
             <Route path="/aiprofile" element={<AIprofile />} />
             <Route path="/aiprofilestep1" element={<AIprofileStep1 />} />
             <Route path="/aiprofilestep2" element={<AIprofileStep2 />} />
+            <Route path="/aiprofilestep3" element={<AIprofileStep3 />} />
             <Route path="/aiprofilecreating" element={<AIprofileCreating />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/loginmypage" element={<LoginMyPage />} />

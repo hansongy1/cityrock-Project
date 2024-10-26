@@ -1,0 +1,84 @@
+.festivalkeyword {
+  font-size: 26px;
+  font-weight: 700;
+  margin-left: 100px;
+  margin-bottom: 38px;
+  margin-top: 0px;
+}
+
+.subt {
+  margin-left: 18px;
+  font-size: 14px;
+  color: #303030;
+  font-weight: 700;
+}
+
+.subt2 {
+  margin-left: 18px;
+  font-size: 14px;
+  color: #bcbcc6;
+  margin-top: 1px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.custom-dropdown {
+  position: relative;
+  width: 340px;
+  margin-left: 24px;
+  margin-bottom: 124px;
+}
+
+.dropdown {
+  font-weight: 500;
+  width: 324px;
+  height: 24px;
+  border-radius: 10px;
+  border: 1px solid #8e8989;
+  color: #a5a2a2;
+  margin-right: 50px;
+  margin-bottom: 300px;
+  background-color: #ffffff09;
+  padding: 10px;
+  font-size: 15px;
+  background: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns%3D%27http%3A//www.w3.org/2000/svg%27 width%3D%2716%27 height%3D%2716%27 viewBox%3D%270 0 16 16%27%3E%3Cpath fill%3D%27%23000%27 d%3D%27M4 6l4 4 4-4z%27/%3E%3C/svg%3E')
+    no-repeat right 13px center;
+  appearance: none;
+  -webkit-appearance: none; /* Safari and Chrome */
+  -moz-appearance: none; /* Firefox */
+}
+
+.options {
+  position: absolute;
+  top: 48px; /* 드롭다운 아래에 위치 */
+  width: 344px;
+  border-radius: 10px;
+  border: 1px solid #8e8989;
+  background-color: #ffffff;
+  z-index: 1;
+  font-weight: 500;
+}
+
+.option {
+  padding: 10px;
+  color: #8e8989;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color:#FFFAD0; /* 옵션 hover 시 배경색 */
+  border-radius: 10px;
+}
+
+.nextbtn {
+  background-color: #181818;
+  height: 60px;
+  width: 344px;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 18px;
+  border: none;
+  font-weight: 600;
+  margin-top: 65px;
+  margin-left: 23px;
+}

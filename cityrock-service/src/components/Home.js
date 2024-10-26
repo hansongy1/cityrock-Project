@@ -1,83 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react';
-import '../styles/main.css'; // 가운데 정렬
-
-import Favorite from "../assets/icon_favorite_border.png";// 클릭 전 아이콘
-import Favorite_Fill from "../assets/icon_favorite_fill.png"; // 클릭 후 아이콘
+import '../styles/main.css'; // 스타일 import
+import { Carousel } from 'react-responsive-carousel';
 import Ex from "../assets/festival2.png";
+import festivalmain1 from "../assets/festivalmain1.jpg";
+import festivalmain2 from "../assets/festivalmain2.png";
+import festivalmain3 from "../assets/festivalmain3.jpg";
+import festivalmain4 from "../assets/festivalmain4.jpg";
 
-const CAROUSEL_IMAGES = [
-    'https://kfescdn.visitkorea.or.kr/kfes/upload/contents/db/fe1f7525-8451-4fdf-9df6-eb99d5997be6_2.jpg',
-    'https://kfescdn.visitkorea.or.kr/kfes/upload/contents/db/202a3575-509f-4e34-bbf8-59328d7b89eb_2.jpg',
-    'https://kfescdn.visitkorea.or.kr/kfes/upload/contents/db/e1c228b3-40a2-4fbd-8b34-f70ac9070c8a_2.jpg',
-];
-
-const Carousel = ({ carouselList }) => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const startX = useRef(0);
-    const currentX = useRef(0);
-    const isDragging = useRef(false);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % carouselList.length);
-        }, 10000); // 3초마다 이미지 변경
-
-        return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 클리어
-    }, [carouselList.length]);
-
-    const previousImageIndex = (currentImageIndex - 1 + carouselList.length) % carouselList.length;
-    const nextImageIndex = (currentImageIndex + 1) % carouselList.length;
-
-
-    // 자동 슬라이드
-    const handleMouseDown = (e) => {
-        isDragging.current = true;
-        startX.current = e.clientX;
-    };
-
-    const handleMouseMove = (e) => {
-        if (!isDragging.current) return;
-        currentX.current = e.clientX;
-    };
-
-    const handleMouseUp = () => {
-        if (!isDragging.current) return;
-        isDragging.current = false;
-        if (currentX.current - startX.current > 50) {
-            // 오른쪽에서 왼쪽으로 슬라이드
-            setCurrentImageIndex((prevIndex) => (prevIndex - 1 + carouselList.length) % carouselList.length);
-        } else if (startX.current - currentX.current > 50) {
-            // 왼쪽에서 오른쪽으로 슬라이드
-            setCurrentImageIndex((prevIndex) => (prevIndex + 1) % carouselList.length);
-        }
-    };
-
-    return (
-        <div className='carousel-container'
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-        >
-            <div className="carousel-container">
-                <div className="carousel-item small">
-                    <img src={carouselList[previousImageIndex]} alt="이전 슬라이드" />
-                </div>
-                <div className="carousel-item large">
-                    <img src={carouselList[currentImageIndex]} alt="현재 슬라이드" />
-                </div>
-                <div className="carousel-item small">
-                    <img src={carouselList[nextImageIndex]} alt="다음 슬라이드" />
-                </div>
-            </div>
-        </div>
-    );
-};
 
 const Home = () => {
     // favorite icon
-    const [favorite, setFavorite] = useState([false, false, false]); // 1. favorite 상태 초기값 설정
+    const [favorite, setFavorite] = useState([false, false, false]);
 
-    const toggleFavorite = (index) => { // 2. toggleFavorite 함수 추가
+    const toggleFavorite = (index) => {
         const newFavorite = [...favorite];
         newFavorite[index] = !newFavorite[index];
         setFavorite(newFavorite);
@@ -86,8 +21,34 @@ const Home = () => {
     return (
         <section className="home-contents">
             <h1 className="home-p">New</h1>
-            <div className="imgBox">
-                <Carousel carouselList={CAROUSEL_IMAGES} />
+            <div className="carousel-imgBox">
+            <Carousel
+            showThumbs={false} // 썸네일 숨기기
+            showStatus={false} // 상태 숨기기
+            infiniteLoop={true} // 무한 루프
+            autoPlay={true} // 자동 재생
+            interval={3000} // 3초마다 이미지 넘기기
+            stopOnHover={false} // 마우스 호버 시 일시정지하지 않음
+            swipeable={true} // 스와이프 가능
+            centerMode={true} // 중앙에 이미지 배치
+            centerSlidePercentage={84} // 중앙 슬라이드의 크기 조정
+            showArrows={false} // 화살표 숨기기
+            showIndicators={false} // 이미지 순서 숨기기
+        >
+            <div>
+                <img src={festivalmain1} alt="메인 축제 이미지 1" className="festival-carousel-image" />
+            </div>
+            <div>
+                <img src={festivalmain2} alt="메인 축제 이미지 2" className="festival-carousel-image" />
+            </div>
+            <div>
+                <img src={festivalmain3} alt="메인 축제 이미지 3" className="festival-carousel-image" />
+            </div>
+            <div>
+                <img src={festivalmain4} alt="메인 축제 이미지 4" className="festival-carousel-image" />
+            </div>
+        </Carousel>
+
             </div>
             <div className="culture-contents">
                 <div className="cate-title">
@@ -128,29 +89,21 @@ const Home = () => {
                     <div className="reco-alg">
                         <div className='alg-contents'>
                             <div className='alg-box'>
-                                <img src={Ex} alt="" className='alg-img'/>
-                                <img 
-                                    src={favorite[0] ? Favorite_Fill : Favorite} // 3. 상태에 따른 아이콘 설정
-                                    alt='Favorite'
-                                    className='alg-icon'
-                                    onClick={() => toggleFavorite(0)} // 4. onClick 이벤트 핸들러 추가
-                                />
+                                <img src={Ex} alt="" className='alg-img' />
                             </div>
                             <p className='alg-title'>곡성세계장미축제</p>
                             <p className='alg-loc'>전라남도 곡성군</p>
                         </div>
                         <div className='alg-contents'>
                             <div className='alg-box'>
-                                <img src="" alt="" className='alg-img'/>
-                                <img src={Favorite} alt='Favorite' className='alg-icon'/>
+                                <img src="" alt="" className='alg-img' />
                             </div>
                             <p className='alg-title'>명</p>
                             <p className='alg-loc'>위치</p>
                         </div>
                         <div className='alg-contents'>
                             <div className='alg-box'>
-                                <img src="" alt="" className='alg-img'/>
-                                <img src={Favorite} alt='Favorite' className='alg-icon'/>
+                                <img src="" alt="" className='alg-img' />
                             </div>
                             <p className='alg-title'>명</p>
                             <p className='alg-loc'>위치</p>
