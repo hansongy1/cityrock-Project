@@ -10,6 +10,7 @@ import pic1 from '../assets/Group-271.png'
 import { useNavigate } from 'react-router-dom';
 
 
+
 Modal.setAppElement('#root');
 
 export default function App() {

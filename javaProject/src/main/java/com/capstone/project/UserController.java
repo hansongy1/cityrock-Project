@@ -31,6 +31,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
+// @Controller
+// @CrossOrigin(origins = "http://localhost:3000") // 프론트엔드 주소로 변경
 public class UserController {
 
     @Autowired
@@ -55,7 +57,27 @@ public class UserController {
     }
 
 
-    // 10-09 수정
+    // 2 - 10.08 수정
+    // @PostMapping("/login")
+    // public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
+    //     Optional<User> userOptional = userService.findByEmail(loginRequest.getEmail());
+    //     if (userOptional.isPresent()) {
+    //         User user = userOptional.get();
+    //         if (userService.checkPassword(loginRequest.getPassword(), user.getPassword())) {
+    //             session.setAttribute("username", user.getUsername());  // 세션에 사용자 이름 저장
+    //             Map<String, String> response = new HashMap<>();
+    //             response.put("message", "로그인 성공");
+    //             response.put("username", user.getUsername());  // 응답으로도 사용자 이름 전송
+    //             return ResponseEntity.ok(response);
+    //         } else {
+    //             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "비밀번호가 일치하지 않습니다."));
+    //         }
+    //     } else {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "사용자를 찾을 수 없습니다."));
+    //     }
+    // }
+
+    // 10-09 수정 - 안 되면 위에 있는 걸로 백
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
         try {
@@ -73,6 +95,9 @@ public class UserController {
             // 사용자 정보 가져오기
             User user = userService.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            
+            // 세션에 사용자 이름 저장
+            session.setAttribute("username", user.getUsername());
 
             // 성공 응답 준비
             Map<String, String> response = new HashMap<>();
@@ -92,7 +117,44 @@ public class UserController {
         }
     }
 
-    
+
+    // 로그아웃 - 10.08 수정
+    // @PostMapping("/logout")
+    // public ResponseEntity<String> logoutUser(HttpSession session) {
+    //     System.out.println("로그아웃 메서드 호출됨");  // 로그 출력
+    //     session.invalidate();  // 세션 무효화
+    //     return ResponseEntity.ok("로그아웃 성공");
+    // }
+    // public String logoutUser(HttpSession session) {
+    //     session.invalidate();  // 세션 무효화
+    //     return "redirect:/login";  // 로그아웃 후 로그인 페이지로 리디렉션
+    // }
+
+
+    // @PostMapping("/delete-account")
+    // public String deleteAccount() {
+    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    //     String email = authentication.getName();  // 현재 로그인된 사용자의 이메일 가져오기
+    //     userService.deleteUserByEmail(email);  // 사용자 삭제
+    //     SecurityContextHolder.clearContext();  // 로그아웃 처리
+    //     return "redirect:/login?accountDeleted";
+    // }
+
+    // 10-09 새 버전
+    // @PostMapping("/delete-account")
+    // public String deleteAccount(Principal principal) {
+    //     String userEmail = principal.getName();
+    //     User user = userService.findByEmail(userEmail)
+    //         .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+    //     // 유저 탈퇴 처리
+    //     userService.deleteUser(user.getId());
+
+    //     // 로그아웃 후 홈 페이지로 리다이렉트
+    //     return "redirect:/login?logout=true";
+    // }
+
+    // 10-09 수정
     // 탈퇴 엔드포인트 수정
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/delete-account")
