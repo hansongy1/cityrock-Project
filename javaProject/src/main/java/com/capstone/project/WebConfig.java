@@ -16,6 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메소드
                 .allowedHeaders("*")
                 .allowCredentials(true); // 세션 쿠키를 허용
+                       
     }
 
     //ver.13 추가
