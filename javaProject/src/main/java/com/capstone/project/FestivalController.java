@@ -103,13 +103,25 @@ public class FestivalController {
         // return "festival-list";
     }
 
-    // 2. 개별 축제 세부 사항 보기(JSON 데이터 반환)
+    // 2. 개별 축제 세부 사항 보기(ver.15 수정)
     @GetMapping("/{id}")
-    // public String getFestivalDetails(@PathVariable Long id, Model model) {
-    //     Festival festival = festivalService.getFestivalById(id);
-    //     model.addAttribute("festival", festival);
-    //     return "festival-detail"; // 템플릿 파일 이름과 일치
-    // }
+    public String getFestivalDetails(@PathVariable Long id, Model model, Principal principal) {
+        Festival festival = festivalService.getFestivalById(id);
+        model.addAttribute("festival", festival);
+
+        // 사용자 활동 기록
+        if (principal != null) {
+            String userEmail = principal.getName();
+            User user = userService.findByEmail(userEmail)
+                    .orElse(null);
+
+            if (user != null) {
+                userService.addRecentFestival(user, festival);
+            }
+        }
+
+        return "festival-detail"; // 템플릿 파일 이름과 일치
+    }
     // 10.16 수정
     public Festival getFestivalDetails(@PathVariable Long id) {
         return festivalService.getFestivalById(id); // JSON 형식으로 개별 축제 반환

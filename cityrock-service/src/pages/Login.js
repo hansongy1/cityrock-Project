@@ -1,54 +1,50 @@
 // Login.js
 
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';  // 리다이렉트용 훅
-import '../styles/Login.css';
-import { IoMdEye, IoMdEyeOff } from 'react-icons/io';
+import { useNavigate } from "react-router-dom";
+import "../styles/Login.css";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();  // 리다이렉트용 훅 선언
+    const navigate = useNavigate();
 
     const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);  // showPassword 상태를 반전시킴
+        setShowPassword(!showPassword);
     };
-
-    const handleRegisterClick = () => {
-        navigate('/register'); // 버튼 클릭 시 '/register'로 이동
-    };
-    
 
     // 로그인 요청 처리 함수
     const loginUser = async (e) => {
-        e.preventDefault();  // 페이지 새로고침 방지
-
-        const credentials = { email, password };  // 사용자 입력 값
+        e.preventDefault();
 
         try {
-            // 백엔드로 로그인 API 요청
             const response = await fetch('http://localhost:8080/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(credentials),  // JSON 형식으로 데이터 전송
-                credentials: 'include', // 쿠키 포함
+                body: JSON.stringify({ email, password }),
+                credentials: 'include',
             });
 
             const data = await response.json();
-            console.log(data);  // 로그인 결과 확인
             if (response.ok) {
-                alert("로그인 성공!");  // 성공 시 알림
-                // 로그인 성공 시 사용자 이름을 로컬 스토리지에 저장
-                localStorage.setItem('username', data.username);
-                navigate('/Loginmypage');  // MyPage로 리디렉션
+                localStorage.setItem("username", data.username);
+                alert("로그인 성공!");
+
+                // 응답의 hasPreferences 값에 따라 페이지 리다이렉트
+                if (data.hasPreferences === "false") {
+                    navigate('/initialUser'); // 선호도 선택 페이지로 이동
+                } else {
+                    navigate('/loginmypage');  // MyPage로 이동
+                }
             } else {
-                alert("로그인 실패: " + data.message);  // 실패 시 알림
+                alert("로그인 실패: " + data.message);
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error("Error:", error);
             alert("서버 오류로 인해 로그인을 할 수 없습니다.");
         }
     };
@@ -61,28 +57,21 @@ const Login = () => {
                     type="email"
                     placeholder="이메일"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}  // 이메일 입력 처리
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <div className="password-box">
                     <input
-                        // type="password"
-                        type={showPassword ? "text" : "password"}  // showPassword에 따라 input type이 변경됨
+                        type={showPassword ? "text" : "password"}
                         placeholder="비밀번호"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}  // 비밀번호 입력 처리
+                        onChange={(e) => setPassword(e.target.value)}
                     />
-                    {/* {showPassword ? (
-                        <IoMdEyeOff onClick={() => setShowPassword(!showPassword)} />
-                    ) : (
-                        <IoMdEye onClick={() => setShowPassword(!showPassword)} />
-                    )} */}
                     {showPassword ? (
-                        <IoMdEyeOff onClick={togglePasswordVisibility} />  // 눈 가린 아이콘 클릭 시 비밀번호 숨김
+                        <IoMdEyeOff onClick={togglePasswordVisibility} />
                     ) : (
-                        <IoMdEye onClick={togglePasswordVisibility} />  // 눈 아이콘 클릭 시 비밀번호 표시
+                        <IoMdEye onClick={togglePasswordVisibility} />
                     )}
                 </div>
-                <div onClick={handleRegisterClick} className="registergo">계정이 없다면? | 회원가입 하기</div>
                 <button type="submit">로그인</button>
             </form>
         </div>

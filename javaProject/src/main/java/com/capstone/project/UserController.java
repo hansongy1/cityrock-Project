@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.ui.Model; // Model 클래스
+import java.util.List; // List 클래스
 
 import jakarta.servlet.http.HttpSession;
 import java.security.Principal;
@@ -31,6 +33,9 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private RecommendationService recommendationService;
 
     // 회원가입 엔드포인트
     @PostMapping("/register")
@@ -51,42 +56,36 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
         try {
-            // AuthenticationManager를 사용하여 인증 시도
+            // 사용자 인증
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );
-
-            // 인증이 성공하면 SecurityContext에 인증 정보 저장
             SecurityContext securityContext = SecurityContextHolder.getContext();
             securityContext.setAuthentication(authentication);
-
-            // SecurityContext를 세션에 저장
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
             // 사용자 정보 가져오기
             User user = userService.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            // 세션에 사용자 이름 저장 (선택 사항)
-            session.setAttribute("username", user.getUsername());
+            // 사용자의 선호도 여부 확인
+            boolean hasPreferences = user.getPreferences() != null && !user.getPreferences().isEmpty();
 
-            // 성공 응답 준비
+            // 선호도 상태를 응답에 포함시킴
             Map<String, String> response = new HashMap<>();
             response.put("message", "로그인 성공");
             response.put("username", user.getUsername());
+            response.put("hasPreferences", String.valueOf(hasPreferences)); // true 또는 false 반환
+
             return ResponseEntity.ok(response);
-        } catch (UsernameNotFoundException e) {
-            // 사용자를 찾을 수 없는 경우
-            Map<String, String> error = new HashMap<>();
-            error.put("message", "사용자를 찾을 수 없습니다.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         } catch (Exception e) {
-            // 비밀번호 불일치 등 기타 오류
             Map<String, String> error = new HashMap<>();
-            error.put("message", "비밀번호가 일치하지 않습니다.");
+            error.put("message", "로그인 실패");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
     }
+
+
 
     // 로그아웃 엔드포인트
     @PostMapping("/logout")
@@ -134,5 +133,20 @@ public class UserController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @GetMapping("/home")
+    public String home(Model model, Principal principal) {
+        if (principal != null) {
+            String userEmail = principal.getName();
+            User user = userService.findByEmail(userEmail).orElse(null);
+
+            if (user != null) {
+                List<Festival> recommendations = recommendationService.getRecommendations(user);
+                model.addAttribute("recommendations", recommendations);
+            }
+        }
+
+        return "home"; // 홈 페이지 템플릿
     }
 }
