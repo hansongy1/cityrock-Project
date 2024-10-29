@@ -27,16 +27,19 @@
   color: #f86262;
 }
 
+.pbutton{
+  display: flex;
+}
 
 .upload-button{
   background-color: #181818;
   height: 60px;
-  width: 344px;
+  width: 144px;
   border-radius: 10px;
   color: #FFFFFF;
   font-size: 18px;
   border: 0px solid;
   font-weight: 600;
   margin-top: 10px;
-  margin-left: 23px;
+  margin-left: 33px;
 }
