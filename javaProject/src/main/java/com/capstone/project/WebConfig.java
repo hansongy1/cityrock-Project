@@ -11,12 +11,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // API 경로에 대해 CORS 허용, 프백연결
-                .allowedOrigins("http://localhost:3000") // 프론트엔드 주소, 프백연결
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메소드
+        registry.addMapping("/api/**")  // API 경로에 대해 CORS 허용
+                .allowedOrigins("http://localhost:3000")  // 허용할 출처 설정
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(true); // 세션 쿠키를 허용
-                       
+                .allowCredentials(true);  // 세션 쿠키를 허용
     }
 
     //ver.13 추가
@@ -27,6 +26,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(preferenceInterceptor)
-                .excludePathPatterns("/login", "/register", "/css/**", "/js/**", "/images/**");
+                .excludePathPatterns("/login", "/register", "/css/**", "/js/**", "/images/**", "/initialUser");
     }
 }

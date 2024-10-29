@@ -5,19 +5,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-// Spring Security 관련 임포트
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-// 비밀번호 인코더 관련 임포트
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-// CORS 설정을 위한 추가된 임포트
-import org.springframework.web.cors.CorsConfiguration;  // CORS 설정을 위한 클래스
-import org.springframework.web.cors.CorsConfigurationSource;  // CORS 설정 소스 클래스
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;  // URL을 기반으로 한 CORS 설정 소스
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.Arrays;
 
 @Configuration
 public class SecurityConfig {
@@ -25,7 +24,6 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    // 비밀번호 인코더 빈 설정
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -64,8 +62,13 @@ public class SecurityConfig {
                 .maximumSessions(1) // 최대 세션 수 제한
                 .expiredUrl("/login?expired=true") // 세션 만료 시 리디렉션 설정
             )
-            .userDetailsService(userDetailsService); // 사용자 인증 서비스 설정
-    
+            .exceptionHandling()
+                .authenticationEntryPoint((request, response, authException) -> 
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+            );
+
+        http.userDetailsService(userDetailsService);
+        
         return http.build();
     }
 
@@ -73,13 +76,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000");  // 허용할 출처 설정
-        configuration.addAllowedMethod("*");  // 모든 메서드 허용
-        configuration.addAllowedHeader("*");  // 모든 헤더 허용
-        configuration.setAllowCredentials(true);  // 인증된 요청 허용
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);  // 모든 경로에 대해 CORS 설정 적용
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
