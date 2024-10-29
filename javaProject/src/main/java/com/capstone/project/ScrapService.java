@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.stream.Collectors;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -53,6 +53,14 @@ public class ScrapService {
         for (Scrap scrap : scraps) {
             scrapRepository.delete(scrap); // 스크랩 취소
         }
+    }
+
+    // 마이페이지 : 스크랩한 게시물 보기 기능
+    public List<Review> getScrappedReviewsByUser(User user) {
+        List<Scrap> scraps = scrapRepository.findByUser(user);
+        return scraps.stream()
+                .map(Scrap::getReview)
+                .collect(Collectors.toList());
     }
 
 }

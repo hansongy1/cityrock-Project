@@ -49,18 +49,17 @@ const InitialUser = () => {
             credentials: 'include', // 세션 쿠키를 보내기 위해 설정
             body: JSON.stringify(selectedKeywordNames),
         })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Failed to save preferences');
-            }
-            navigate('/');
-        })
-        .catch(error => {
-            console.error('Error saving preferences:', error);
-            alert('선호 키워드를 저장하는 중 오류가 발생했습니다.');
-        });
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to save preferences');
+                }
+                navigate('/');
+            })
+            .catch(error => {
+                console.error('Error saving preferences:', error);
+                alert('선호 키워드를 저장하는 중 오류가 발생했습니다.');
+            });
     };
-    
     
 
     return (

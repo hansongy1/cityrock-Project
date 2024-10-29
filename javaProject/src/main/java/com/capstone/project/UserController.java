@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.HashMap;
@@ -66,21 +67,16 @@ public class UserController {
             User user = userService.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            // 세션에 사용자 이름 저장 (선택 사항)
-            session.setAttribute("username", user.getUsername());
-
             // 성공 응답 준비
             Map<String, String> response = new HashMap<>();
             response.put("message", "로그인 성공");
             response.put("username", user.getUsername());
             return ResponseEntity.ok(response);
         } catch (UsernameNotFoundException e) {
-            // 사용자를 찾을 수 없는 경우
             Map<String, String> error = new HashMap<>();
             error.put("message", "사용자를 찾을 수 없습니다.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         } catch (Exception e) {
-            // 비밀번호 불일치 등 기타 오류
             Map<String, String> error = new HashMap<>();
             error.put("message", "비밀번호가 일치하지 않습니다.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);

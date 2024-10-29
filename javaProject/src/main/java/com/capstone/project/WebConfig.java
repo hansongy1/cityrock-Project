@@ -15,8 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(preferenceInterceptor)
-                .addPathPatterns("/", "/mypage", "/**")  // 필요한 경로 추가
-                .excludePathPatterns("/login", "/register", "/initialUser", "/css/**", "/js/**", "/images/**");
+                .excludePathPatterns("/login", "/register", "/css/**", "/js/**", "/images/**", "/initialUser");
     }
 
     // 기존의 addViewControllers 메소드가 있다면 유지

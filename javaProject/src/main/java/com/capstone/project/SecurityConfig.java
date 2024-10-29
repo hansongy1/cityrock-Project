@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,8 +14,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository; // 추가
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.Arrays;
 
 @Configuration
@@ -30,49 +29,50 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // AuthenticationManager 빈 설정
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
+    // SecurityFilterChain 설정
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 적용
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/users/register", "/api/users/login", "/api/users/logout", "/", "/login").permitAll()
-                .requestMatchers("/api/preferences/**", "/initialUser").authenticated()
-                .anyRequest().authenticated()
+                .requestMatchers("/profile/upload", "/profile/keywords", "/api/users/register", "/api/users/login", "/profile/downloadImage", "/").permitAll() // 접근 허용
+                .requestMatchers("/api/festivals", "/api/festivals/**").permitAll() // 축제 API 허용
+                .requestMatchers("/api/users/delete-account").authenticated() // 탈퇴 엔드포인트는 인증 필요
+                .anyRequest().authenticated() // 나머지 모든 요청은 인증 필요
             )
-            .formLogin(form -> form.disable())
-            .httpBasic(basic -> basic.disable())
+            .formLogin(form -> form.disable()) // 폼 로그인 비활성화
+            .httpBasic(basic -> basic.disable()) // HTTP Basic 인증 비활성화
             .logout(logout -> logout
-                .logoutUrl("/api/users/logout")
-                .logoutSuccessHandler(customLogoutSuccessHandler())
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
+                .logoutUrl("/api/users/logout") // 로그아웃 경로 설정
+                .logoutSuccessHandler(customLogoutSuccessHandler()) // 커스텀 로그아웃 핸들러
+                .invalidateHttpSession(true) // 세션 무효화
+                .clearAuthentication(true) // 인증 정보 클리어
+                .deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
+                .permitAll() // 로그아웃 접근 허용
             )
             .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 세션 관리 정책 설정
+                .maximumSessions(1) // 최대 세션 수 제한
+                .expiredUrl("/login?expired=true") // 세션 만료 시 리디렉션 설정
             )
-            .securityContext(securityContext -> securityContext
-                .securityContextRepository(new HttpSessionSecurityContextRepository()) // 추가된 부분
-            )
-            .exceptionHandling(exception -> exception
-                .authenticationEntryPoint((request, response, authException) ->
+            .exceptionHandling()
+                .authenticationEntryPoint((request, response, authException) -> 
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
-                )
             );
 
         http.userDetailsService(userDetailsService);
-
-        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_THREADLOCAL);
+        
         return http.build();
     }
 
+    // CORS 설정
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -86,6 +86,7 @@ public class SecurityConfig {
         return source;
     }
 
+    // 커스텀 로그아웃 핸들러 빈 설정
     @Bean
     public LogoutSuccessHandler customLogoutSuccessHandler() {
         return new CustomLogoutSuccessHandler();
