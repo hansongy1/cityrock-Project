@@ -65,10 +65,10 @@ const InitialUser = () => {
     return (
         <div className="algorithm-container">
             <p className="mainGuide">
-                좋아하는 키워드를 3개 이상 선택하면 
+                좋아하는 키워드를 3개를 선택하면 
                 취향에 맞는 축제를 추천해드려요!
             </p>
-            <p className="guide">3개 이상의 키워드 선택이 필요해요!</p>
+            <p className="guide">3개의 키워드 선택이 필요해요!</p>
             <section className="progress-bar">
                 <div className="progress" style={{ width: progressBarWidth }}></div>
             </section>

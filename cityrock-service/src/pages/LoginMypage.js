@@ -80,27 +80,19 @@ export default function App() {
         });
 
         if (response.ok) {
-            const data = await response.json();
-            alert(data.message || '탈퇴되었습니다.');
-            localStorage.removeItem('username'); // 로컬 스토리지에서 사용자 이름 삭제
-            navigate('/'); // 로그인 페이지로 리디렉션
-        } else {
-          // const errorData = await response.json();
-          // alert('탈퇴 실패: ' + (errorData.message || '알 수 없는 오류'));
-          // 서버가 JSON 응답을 보내지 않을 수도 있으므로, 안전하게 처리
-          let errorMessage = '탈퇴 실패';
-          try {
-              const errorData = await response.json();
-              errorMessage = errorData.message || errorMessage;
-          } catch (e) {
-              // JSON 파싱 실패 시 기본 메시지 사용
-          }
-          alert('탈퇴 실패: ' + errorMessage);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('서버 오류로 탈퇴할 수 없습니다.');
-    }
+          const data = await response.json();
+          alert(data.message || '탈퇴되었습니다.');
+          localStorage.removeItem('username');
+          navigate('/');
+      } else {
+          const errorData = await response.json();
+          alert('탈퇴 실패: ' + (errorData.message || '알 수 없는 오류'));
+      }
+  } catch (error) {
+      console.error('Error:', error);
+      alert('서버 오류로 탈퇴할 수 없습니다.');
+  }
+
   };
 
   const handleImageChange = (event) => {
