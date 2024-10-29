@@ -8,15 +8,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-<<<<<<< HEAD
-import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpServletRequest;
-=======
 import org.springframework.ui.Model; // Model 클래스
 import java.util.List; // List 클래스
 
->>>>>>> 226333f53486d22256554fa308194e369700f08e
 import jakarta.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class UserController {
 
     // 로그인 엔드포인트
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
         try {
             // 사용자 인증
             Authentication authentication = authenticationManager.authenticate(
@@ -61,17 +62,11 @@ public class UserController {
             );
             SecurityContext securityContext = SecurityContextHolder.getContext();
             securityContext.setAuthentication(authentication);
-<<<<<<< HEAD
-
-            // SecurityContext를 세션에 저장
-            HttpSession session = request.getSession(true);
-=======
->>>>>>> 226333f53486d22256554fa308194e369700f08e
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
-            // 현재 로그인한 사용자의 이메일을 세션에 저장
-            String userEmail = loginRequest.getEmail();
-            session.setAttribute("userEmail", userEmail);
+            // 사용자 정보 가져오기
+            User user = userService.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
             // 사용자의 선호도 여부 확인
             boolean hasPreferences = user.getPreferences() != null && !user.getPreferences().isEmpty();
@@ -122,9 +117,7 @@ public class UserController {
             SecurityContextHolder.clearContext();
 
             // 성공 응답
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "탈퇴되었습니다.");
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(Map.of("message", "탈퇴되었습니다."));
         } catch (Exception e) {
             // 오류 응답
             Map<String, String> error = new HashMap<>();

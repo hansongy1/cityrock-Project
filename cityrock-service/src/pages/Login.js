@@ -15,6 +15,10 @@ const Login = () => {
         setShowPassword(!showPassword);
     };
 
+    const handleRegisterClick = () => {
+        navigate('/register'); // 버튼 클릭 시 '/register'로 이동
+    };
+
     // 로그인 요청 처리 함수
     const loginUser = async (e) => {
         e.preventDefault();
@@ -72,6 +76,7 @@ const Login = () => {
                         <IoMdEye onClick={togglePasswordVisibility} />
                     )}
                 </div>
+                <div onClick={handleRegisterClick} className="registergo">계정이 없다면? | 회원가입 하기</div>
                 <button type="submit">로그인</button>
             </form>
         </div>
