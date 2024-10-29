@@ -21,19 +21,26 @@ public class PreferenceInterceptor implements HandlerInterceptor {
         // 로그인한 사용자인 경우
         if (principal != null) {
             String userEmail = principal.getName();
+            System.out.println("Logged in user email: " + userEmail);  // 디버깅 로그
 
-            // 사용자가 선호 키워드를 설정하지 않았다면 /initialUser로 리다이렉트
-            if (!userService.hasPreferences(userEmail)) {
+            // 선호 키워드가 없는 경우
+            boolean hasPreferences = userService.hasPreferences(userEmail);
+            System.out.println("Has preferences: " + hasPreferences); // 디버깅 로그
+
+            if (!hasPreferences) {
                 String requestUri = request.getRequestURI();
-
-                // /initialUser 또는 관련 API로의 요청이 아닌 경우만 리다이렉트
+                System.out.println("Request URI: " + requestUri); // 디버깅 로그
+                // /initialUser 페이지로 리다이렉트 설정
                 if (!requestUri.equals("/initialUser") && !requestUri.startsWith("/api/preferences")) {
-                    System.out.println("Redirecting to /initialUser for user: " + userEmail); // 로그로 리다이렉트 확인
+                    System.out.println("Redirecting to /initialUser"); // 리다이렉트 로그
                     response.sendRedirect("/initialUser");
                     return false; // 요청 중단
                 }
             }
+        } else {
+            System.out.println("User not logged in or Principal is null.");
         }
-        return true; // 선호 키워드가 설정되어 있는 경우 요청 계속 진행
+
+        return true; // 선호 키워드가 설정되어 있는 경우 정상적으로 요청 진행
     }
 }

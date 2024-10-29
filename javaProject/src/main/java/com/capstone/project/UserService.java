@@ -82,4 +82,23 @@ public class UserService {
                 .map(user -> user.getPreferences() != null && !user.getPreferences().isEmpty())
                 .orElse(false);
     }
+
+    //ver.15
+    public void addRecentFestival(User user, Festival festival) {
+        List<Festival> recentFestivals = user.getRecentFestivals();
+
+        // 이미 리스트에 있는 경우 제거 (중복 방지)
+        recentFestivals.remove(festival);
+
+        // 리스트의 맨 앞에 추가
+        recentFestivals.add(0, festival);
+
+        // 리스트 크기가 10을 초과하면 마지막 요소 제거
+        if (recentFestivals.size() > 10) {
+            recentFestivals.remove(10);
+        }
+
+        // 변경 사항 저장
+        userRepository.save(user);
+    }
 }

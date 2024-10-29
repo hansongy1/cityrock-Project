@@ -139,44 +139,4 @@ public class FestivalController {
             return "CSV 파일 처리 중 오류가 발생했습니다.";
         }
     }
-
-    // 4. 축제 등록 처리
-    @PostMapping("/add")
-    public Festival addFestival(@RequestParam("name") String name,
-                              @RequestParam("date") String date,
-                              @RequestParam("location") String location,
-                              @RequestParam("category") String category,
-                              @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
-                              @RequestParam(value = "imageUrl", required = false) String imageUrl,
-                              Model model) {
-        try {
-            Festival festival = new Festival();
-            festival.setName(name);
-            festival.setDate(date);
-            festival.setLocation(location);
-            festival.setCategory(category);
-
-            // 이미지 파일 저장 로직
-            if (imageFile != null && !imageFile.isEmpty()) {
-                // 이미지 파일을 서버에 저장
-                Path filePath = Paths.get(UPLOAD_DIR + imageFile.getOriginalFilename());
-                imageFile.transferTo(new File(filePath.toString()));
-                festival.setImage(imageFile.getOriginalFilename()); // 이미지 파일 이름 저장
-            } else if (imageUrl != null && !imageUrl.isEmpty()) {
-                // 이미지 URL 저장
-                festival.setImage(imageUrl); // 이미지 URL 저장
-            } else {
-                // 기본 이미지 설정 또는 오류 처리
-                festival.setImage("default.jpg"); // 기본 이미지 파일 이름 저장
-            }
-
-            return festivalService.save(festival);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        // return "redirect:/festivals"; // 등록 후 축제 리스트 페이지로 리다이렉트
-    }
 }

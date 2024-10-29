@@ -1,19 +1,17 @@
 package com.capstone.project;
 
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
-import java.util.Set;
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
-// import jakarta.persistence.*;
-// import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "app_user")
@@ -35,17 +33,25 @@ public class User {
     private String phoneNumber;  // 사용자 전화번호
 
     @Column(nullable = false)
-    // private LocalDate birthdate;  // 사용자 생년월일
-    private String birthdate;  // 사용자 생년월일
-
-
-    // Ver13 추가(4줄)
+    private LocalDate birthdate;  // 사용자 생년월일
+    
+    @Column(name = "profile_image", nullable = true)
+    private String profileImage;  // 프로필 이미지
+    
+    //ver.13
     @ElementCollection(fetch = FetchType.EAGER) // 즉시 로딩으로 변경
     @CollectionTable(name = "user_preferences", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "preference")
     private Set<String> preferences = new HashSet<>();
-
-
+    
+    // 최근 본 축제 목록 (최대 10개) (Ver.15)
+    @ManyToMany
+    @JoinTable(
+        name = "user_recent_festivals",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "festival_id")
+    )
+    private List<Festival> recentFestivals = new ArrayList<>();
     
     // Getters and Setters
     public Long getId() {
@@ -68,7 +74,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
+	public void setEmail(String email) {
         this.email = email;
     }
 
@@ -88,21 +94,40 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(String birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
-    //ver.13 추가
+    //ver.13
     public Set<String> getPreferences() {
 		return preferences;
 	}
 
-    //ver.13 추가
 	public void setPreferences(Set<String> preferences) {
 		this.preferences = preferences;
 	}
+
+	//ver.15
+	public List<Festival> getRecentFestivals() {
+		return recentFestivals;
+	}
+
+	public void setRecentFestivals(List<Festival> recentFestivals) {
+		this.recentFestivals = recentFestivals;
+	}
+
+	//ver.16
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+    
+    
 }
