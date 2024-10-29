@@ -16,6 +16,27 @@ public class RecommendationService {
     @Autowired
     private FestivalRepository festivalRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    public List<Festival> getInitialRecommendations(User user) {
+    // 초기 선호에 따라 추천 축제 목록을 가져옴
+    Set<String> preferences = user.getPreferences();
+    return festivalRepository.findByCategoryIn(preferences);
+    }
+
+    public void updateRecentFestivals(User user, Festival festival) {
+    List<Festival> recentFestivals = user.getRecentFestivals();
+
+    // 최근 본 축제의 개수가 10개 이상이면 가장 오래된 것을 삭제
+    if (recentFestivals.size() >= 10) {
+        recentFestivals.remove(0); 
+    }
+    recentFestivals.add(festival);
+    user.setRecentFestivals(recentFestivals);
+    userRepository.save(user); // 유저 정보 갱신
+    }
+
     public List<Festival> getRecommendations(User user) {
         Set<String> preferredCategories = user.getPreferences();
         List<Festival> recentFestivals = user.getRecentFestivals();
@@ -51,4 +72,6 @@ public class RecommendationService {
 
         return recommendations;
     }
+    
+
 }

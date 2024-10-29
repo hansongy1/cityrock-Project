@@ -1,83 +1,96 @@
-import React, { useEffect, useState, useRef } from 'react';
-import '../styles/main.css'; // 스타일 import
+import React, { useEffect, useState } from 'react';
+import '../styles/main.css'; 
 import { Carousel } from 'react-responsive-carousel';
-import Ex from "../assets/festival2.png";
 import festivalmain1 from "../assets/festivalmain1.jpg";
 import festivalmain2 from "../assets/festivalmain2.png";
 import festivalmain3 from "../assets/festivalmain3.jpg";
 import festivalmain4 from "../assets/festivalmain4.jpg";
 
-
 const Home = () => {
-    // favorite icon
-    const [favorite, setFavorite] = useState([false, false, false]);
+    const [recommendations, setRecommendations] = useState([]);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const toggleFavorite = (index) => {
-        const newFavorite = [...favorite];
-        newFavorite[index] = !newFavorite[index];
-        setFavorite(newFavorite);
+    const checkLoginStatus = async () => {
+        try {
+            const response = await fetch('/api/users/check-login', { credentials: 'include' });
+            setIsLoggedIn(response.ok);
+        } catch (error) {
+            console.error("Error checking login status:", error);
+        }
     };
+
+    const fetchInitialRecommendations = async () => {
+        if (isLoggedIn) {
+            try {
+                const response = await fetch('/api/recommendations/initial', { credentials: 'include' });
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // 배열을 랜덤하게 섞은 뒤 상위 3개만 선택
+                    const shuffledData = data.sort(() => Math.random() - 0.5).slice(0, 3);
+                    
+                    setRecommendations(shuffledData);
+                }
+            } catch (error) {
+                console.error("Error fetching initial recommendations:", error);
+            }
+        }
+    };
+    
+
+    const fetchUpdatedRecommendations = async () => {
+        if (isLoggedIn) {
+            try {
+                const response = await fetch('/api/recommendations', { credentials: 'include' });
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // 배열을 랜덤하게 섞은 뒤 상위 3개만 선택
+                    const shuffledData = data.sort(() => Math.random() - 0.5).slice(0, 3);
+                    
+                    setRecommendations(shuffledData);
+                }
+            } catch (error) {
+                console.error("Error fetching updated recommendations:", error);
+            }
+        }
+    };
+
+    const handleFestivalClick = async (festivalId) => {
+        await fetch(`/api/festivals/updateRecent/${festivalId}`, {
+            method: 'POST',
+            credentials: 'include'
+        });
+        fetchUpdatedRecommendations();
+    };
+
+    useEffect(() => {
+        checkLoginStatus();
+        fetchInitialRecommendations();
+    }, [isLoggedIn]);
 
     return (
         <section className="home-contents">
             <h1 className="home-p">New</h1>
             <div className="carousel-imgBox">
-            <Carousel
-            showThumbs={false} // 썸네일 숨기기
-            showStatus={false} // 상태 숨기기
-            infiniteLoop={true} // 무한 루프
-            autoPlay={true} // 자동 재생
-            interval={3000} // 3초마다 이미지 넘기기
-            stopOnHover={false} // 마우스 호버 시 일시정지하지 않음
-            swipeable={true} // 스와이프 가능
-            centerMode={true} // 중앙에 이미지 배치
-            centerSlidePercentage={84} // 중앙 슬라이드의 크기 조정
-            showArrows={false} // 화살표 숨기기
-            showIndicators={false} // 이미지 순서 숨기기
-        >
-            <div>
-                <img src={festivalmain1} alt="메인 축제 이미지 1" className="festival-carousel-image" />
-            </div>
-            <div>
-                <img src={festivalmain2} alt="메인 축제 이미지 2" className="festival-carousel-image" />
-            </div>
-            <div>
-                <img src={festivalmain3} alt="메인 축제 이미지 3" className="festival-carousel-image" />
-            </div>
-            <div>
-                <img src={festivalmain4} alt="메인 축제 이미지 4" className="festival-carousel-image" />
-            </div>
-        </Carousel>
-
-            </div>
-            <div className="culture-contents">
-                <div className="cate-title">
-                    <h1 className="home-p">문화 콘텐츠</h1>
-                    <div className="makdagi-1" />
-                </div>
-                <div className="cate-box">
-                    <div className="c-img">
-                        <img src="" alt="" />
-                    </div>
-                    <div className="etc-text-1">
-                        <p className="text-t">화려한 조명, 멋진 조명<br />그리고 열정적인 아티스트</p>
-                        <p className="link-t">공연 바로가기</p>
-                    </div>
-                </div>
-                <div className="cate-box">
-                    <div className="c-img" />
-                    <div className="etc-text-2">
-                        <p className="text-t">현대적이고 창의적인</p>
-                        <p className="link-t">전시회 바로가기</p>
-                    </div>
-                </div>
-                <div className="cate-box">
-                    <div className="c-img" />
-                    <div className="etc-text-2">
-                        <p className="text-t">다채로운 문화, 함성과 기쁨</p>
-                        <p className="link-t">축제 바로가기</p>
-                    </div>
-                </div>
+                <Carousel
+                    showThumbs={false}
+                    showStatus={false}
+                    infiniteLoop={true}
+                    autoPlay={true}
+                    interval={3000}
+                    stopOnHover={false}
+                    swipeable={true}
+                    centerMode={true}
+                    centerSlidePercentage={84}
+                    showArrows={false}
+                    showIndicators={false}
+                >
+                    <div><img src={festivalmain1} alt="메인 축제 이미지 1" className="festival-carousel-image" /></div>
+                    <div><img src={festivalmain2} alt="메인 축제 이미지 2" className="festival-carousel-image" /></div>
+                    <div><img src={festivalmain3} alt="메인 축제 이미지 3" className="festival-carousel-image" /></div>
+                    <div><img src={festivalmain4} alt="메인 축제 이미지 4" className="festival-carousel-image" /></div>
+                </Carousel>
             </div>
             <div className="recommend">
                 <div className="cate-title">
@@ -87,27 +100,25 @@ const Home = () => {
                 <div className='reco-contents'>
                     <p className='reco-text'>당신에게 알맞은 컨텐츠를 추천해드릴게요!</p>
                     <div className="reco-alg">
-                        <div className='alg-contents'>
-                            <div className='alg-box'>
-                                <img src={Ex} alt="" className='alg-img' />
-                            </div>
-                            <p className='alg-title'>곡성세계장미축제</p>
-                            <p className='alg-loc'>전라남도 곡성군</p>
-                        </div>
-                        <div className='alg-contents'>
-                            <div className='alg-box'>
-                                <img src="" alt="" className='alg-img' />
-                            </div>
-                            <p className='alg-title'>명</p>
-                            <p className='alg-loc'>위치</p>
-                        </div>
-                        <div className='alg-contents'>
-                            <div className='alg-box'>
-                                <img src="" alt="" className='alg-img' />
-                            </div>
-                            <p className='alg-title'>명</p>
-                            <p className='alg-loc'>위치</p>
-                        </div>
+                        {isLoggedIn ? (
+                            recommendations.length > 0 ? (
+                                recommendations.map((festival, index) => (
+                                    <div key={index} className="alg-contents" onClick={() => handleFestivalClick(festival.id)}>
+                                        <div className="alg-box">
+                                            <img src={festival.image} alt={festival.name} className="alg-img" />
+                                        </div>
+                                        <p className="alg-title">{festival.name}</p>
+                                        <p className="alg-loc">{festival.location}</p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="reco-text">추천할 축제를 불러오는 중입니다...</p>
+                            )
+                        ) : (
+                            <p className="reco-text" style={{ marginLeft: '53px', fontWeight: '550' }}>
+                                추천할 축제를 불러오는 중입니다...
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>

@@ -5,6 +5,10 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import java.security.Principal;
+
 
 import java.io.File;
 import java.io.FileReader;
@@ -30,6 +34,13 @@ public class FestivalController {
 
     @Autowired
     private FestivalService festivalService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RecommendationService recommendationService;
+
 
     // private static final String UPLOAD_DIR = "C:/uploads/";
     // 업로드 파일이 저장될 경로(VSCode 프로젝트 폴더 내부)
@@ -139,4 +150,14 @@ public class FestivalController {
             return "CSV 파일 처리 중 오류가 발생했습니다.";
         }
     }
+
+    @PostMapping("/updateRecent/{festivalId}")
+    public ResponseEntity<String> updateRecentFestivals(@PathVariable Long festivalId, Principal principal) {
+        User user = userService.findByEmail(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Festival festival = festivalService.getFestivalById(festivalId);
+        recommendationService.updateRecentFestivals(user, festival);
+        return ResponseEntity.ok("선호 축제 데이터가 업데이트되었습니다.");
+    }
+
 }
