@@ -72,4 +72,10 @@ public class UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
+
+    public boolean hasPreferences(String email) {
+        return userRepository.findByEmail(email)
+                .map(user -> user.getPreferences() != null && !user.getPreferences().isEmpty())
+                .orElse(false);
+    }
 }
