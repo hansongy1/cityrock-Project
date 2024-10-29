@@ -35,10 +35,12 @@ public class MyPageController {
         String userEmail = principal.getName();
         User user = userService.findByEmail(userEmail).orElse(null);
 
-        if (user != null) {
-            model.addAttribute("user", user);
+        // 사용자 정보가 없거나, 선호 키워드를 선택하지 않은 경우 선호 키워드 선택 페이지로 리다이렉트
+        if (!userService.hasPreferences(userEmail)) {
+            return "redirect:/initialUser"; // 선호 키워드 선택 페이지로 리다이렉트
         }
 
+        model.addAttribute("user", user);
         return "mypage";  // 마이페이지 템플릿으로 이동
     }
 

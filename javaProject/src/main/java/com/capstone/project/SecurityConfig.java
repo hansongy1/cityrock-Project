@@ -42,10 +42,21 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
             .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 적용
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/profile/upload", "/profile/keywords", "/api/users/register", "/api/users/login", "/profile/downloadImage", "/").permitAll() // 접근 허용
-                .requestMatchers("/api/festivals", "/api/festivals/**").permitAll() // 축제 API 허용
-                .requestMatchers("/api/users/delete-account").authenticated() // 탈퇴 엔드포인트는 인증 필요
-                .anyRequest().authenticated() // 나머지 모든 요청은 인증 필요
+                .requestMatchers(
+                    "/profile/upload",
+                    "/profile/keywords",
+                    "/api/users/register",
+                    "/api/users/login",
+                    "/profile/downloadImage",
+                    "/",
+                    "/initialUser",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**"
+                ).permitAll()
+                .requestMatchers("/api/festivals", "/api/festivals/**").permitAll()
+                .requestMatchers("/api/users/delete-account").authenticated()
+                .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable()) // 폼 로그인 비활성화
             .httpBasic(basic -> basic.disable()) // HTTP Basic 인증 비활성화
@@ -62,15 +73,17 @@ public class SecurityConfig {
                 .maximumSessions(1) // 최대 세션 수 제한
                 .expiredUrl("/login?expired=true") // 세션 만료 시 리디렉션 설정
             )
-            .exceptionHandling()
+            .exceptionHandling(exception -> exception
                 .authenticationEntryPoint((request, response, authException) -> 
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+                )
             );
 
         http.userDetailsService(userDetailsService);
         
         return http.build();
     }
+
 
     // CORS 설정
     @Bean

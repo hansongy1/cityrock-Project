@@ -78,10 +78,10 @@ public class UserService {
 
     // 사용자가 선호 키워드를 가지고 있는지 확인
     public boolean hasPreferences(String email) {
-        return userRepository.findByEmail(email)
-                .map(user -> user.getPreferences() != null && !user.getPreferences().isEmpty())
-                .orElse(false);
+        User user = userRepository.findByEmail(email).orElse(null);
+        return user.getPreferences() != null && !user.getPreferences().isEmpty();
     }
+
 
     //ver.15
     public void addRecentFestival(User user, Festival festival) {

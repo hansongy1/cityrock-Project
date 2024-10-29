@@ -22,30 +22,35 @@ const Login = () => {
 
     // 로그인 요청 처리 함수
     const loginUser = async (e) => {
-        e.preventDefault();  // 페이지 새로고침 방지
+        e.preventDefault();
 
-        const credentials = { email, password };  // 사용자 입력 값
+        const credentials = { email, password };
 
         try {
-            // 백엔드로 로그인 API 요청
             const response = await fetch('http://localhost:8080/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(credentials),  // JSON 형식으로 데이터 전송
-                credentials: 'include', // 쿠키 포함
+                body: JSON.stringify(credentials),
+                credentials: 'include',
             });
 
             const data = await response.json();
-            console.log(data);  // 로그인 결과 확인
+            console.log(data);
+
             if (response.ok) {
-                alert("로그인 성공!");  // 성공 시 알림
-                // 로그인 성공 시 사용자 이름을 로컬 스토리지에 저장
-                localStorage.setItem('username', data.username);
-                navigate('/Loginmypage');  // MyPage로 리디렉션
+                alert("로그인 성공!");
+
+                // 로그인 성공 시 선호 키워드 유무에 따라 페이지 이동
+                const hasPreferences = data.hasPreferences;
+                if (hasPreferences) {
+                    navigate('/mypage');  // 선호 키워드가 있는 경우 마이페이지로 이동
+                } else {
+                    navigate('/initialUser');  // 선호 키워드가 없는 경우 초기 설정 페이지로 이동
+                }
             } else {
-                alert("로그인 실패: " + data.message);  // 실패 시 알림
+                alert("로그인 실패: " + data.message);
             }
         } catch (error) {
             console.error('Error:', error);
