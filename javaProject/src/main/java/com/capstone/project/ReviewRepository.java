@@ -7,4 +7,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByFestivalId(Long festivalId);
     List<Review> findByFestival(Festival festival);
     List<Review> findByUser(User user); // 유저가 작성한 리뷰 찾기
+    List<Review> findByUserId(Long userId); //ver.18
 }
