@@ -1,24 +1,22 @@
-// FestivalDatail.js(축제를 클릭했을 때 보이는 축제 정보)
+// FestivalDetail.js
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // useParams를 import
+import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/FestivalDetail.css';
 import review from '../assets/review.png';
 import dot from '../assets/dot.png';
-import leftIcon from '../assets/fi-br-angle-left.png'
-// import { useNavigate } from 'react-router-dom';
-
+import leftIcon from '../assets/fi-br-angle-left.png';
 
 const FestivalDetail = () => {
-  const { id } = useParams(); // URL에서 축제 ID를 가져옴
-  const [festival, setFestival] = useState(null); // 축제 정보를 저장할 state
-  const [loading, setLoading] = useState(true); // 로딩 상태
-  const [error, setError] = useState(null); // 에러 상태
+  const { id } = useParams();
+  const [festival, setFestival] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   // API를 호출해서 축제 정보를 불러오는 함수
   useEffect(() => {
-    fetch(`http://localhost:8080/api/festivals/${id}`)  // 백엔드 엔드포인트
+    fetch(`http://localhost:8080/api/festivals/${id}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -26,39 +24,39 @@ const FestivalDetail = () => {
         return response.json();
       })
       .then(data => {
-        setFestival(data);  // 불러온 데이터를 state에 저장
-        setLoading(false);   // 로딩 상태 종료
+        setFestival(data);
+        setLoading(false);
+
+        // 축제 정보를 가져온 후 사용자가 본 축제 목록을 업데이트
+        updateRecentFestival(id);
       })
       .catch(error => {
         console.error('Error fetching festival details:', error);
         setError(error);
-        setLoading(false);   // 로딩 상태 종료
+        setLoading(false);
       });
   }, [id]);
 
-  // 로딩 중일 때 표시
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // 사용자가 본 축제 정보를 백엔드에 저장
+  const updateRecentFestival = async (festivalId) => {
+    try {
+      await fetch(`http://localhost:8080/api/festivals/updateRecent/${festivalId}`, {
+        method: 'POST',
+        credentials: 'include', // 로그인 세션을 포함하기 위해 필요
+      });
+    } catch (error) {
+      console.error("Error updating recent festivals:", error);
+    }
+  };
 
-  // 에러 발생 시 표시
-  if (error) {
-    return <div>Error occurred: {error.message}</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error occurred: {error.message}</div>;
+  if (!festival) return <div>축제를 찾을 수 없습니다.</div>;
 
-  // 축제 데이터를 화면에 렌더링
-  if (!festival) {
-    return <div>축제를 찾을 수 없습니다.</div>;
-  }
+  const goBack = () => navigate(-1);
 
-  // 뒤로 가기 Btn
-  const goBack = () => {
-    navigate(-1);
-  }
-
-  // 후기 Btn
   const handleReviewClick = () => {
-    navigate('/reviewlist'); // 버튼 클릭 시 '/review'로 이동
+    navigate('/reviewlist');
   };
 
   return (

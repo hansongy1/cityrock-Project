@@ -9,8 +9,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
+=======
+import org.springframework.ui.Model; // Model 클래스
+import java.util.List; // List 클래스
+
+>>>>>>> 226333f53486d22256554fa308194e369700f08e
 import jakarta.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.HashMap;
@@ -26,6 +32,9 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private RecommendationService recommendationService;
 
     // 회원가입 엔드포인트
     @PostMapping("/register")
@@ -46,38 +55,42 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> loginUser(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
         try {
-            // AuthenticationManager를 사용하여 인증 시도
+            // 사용자 인증
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );
-
-            // 인증이 성공하면 SecurityContext에 인증 정보 저장
             SecurityContext securityContext = SecurityContextHolder.getContext();
             securityContext.setAuthentication(authentication);
+<<<<<<< HEAD
 
             // SecurityContext를 세션에 저장
             HttpSession session = request.getSession(true);
+=======
+>>>>>>> 226333f53486d22256554fa308194e369700f08e
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
             // 현재 로그인한 사용자의 이메일을 세션에 저장
             String userEmail = loginRequest.getEmail();
             session.setAttribute("userEmail", userEmail);
 
-            // 선호 키워드 유무 확인 후 세션에 저장
-            boolean hasPreferences = userService.hasPreferences(userEmail);
-            session.setAttribute("hasPreferences", hasPreferences);
+            // 사용자의 선호도 여부 확인
+            boolean hasPreferences = user.getPreferences() != null && !user.getPreferences().isEmpty();
 
-            // 로그인 성공 메시지와 hasPreferences 반환
-            Map<String, Object> response = new HashMap<>();
+            // 선호도 상태를 응답에 포함시킴
+            Map<String, String> response = new HashMap<>();
             response.put("message", "로그인 성공");
-            response.put("hasPreferences", hasPreferences);
+            response.put("username", user.getUsername());
+            response.put("hasPreferences", String.valueOf(hasPreferences)); // true 또는 false 반환
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            Map<String, Object> error = new HashMap<>();
-            error.put("message", "서버 오류로 인해 로그인할 수 없습니다.");
+            Map<String, String> error = new HashMap<>();
+            error.put("message", "로그인 실패");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
         }
     }
+
+
 
     // 로그아웃 엔드포인트
     @PostMapping("/logout")
@@ -127,5 +140,20 @@ public class UserController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @GetMapping("/home")
+    public String home(Model model, Principal principal) {
+        if (principal != null) {
+            String userEmail = principal.getName();
+            User user = userService.findByEmail(userEmail).orElse(null);
+
+            if (user != null) {
+                List<Festival> recommendations = recommendationService.getRecommendations(user);
+                model.addAttribute("recommendations", recommendations);
+            }
+        }
+
+        return "home"; // 홈 페이지 템플릿
     }
 }
