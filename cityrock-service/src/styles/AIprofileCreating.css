@@ -76,8 +76,9 @@
 .carousel .carousel-image {
   border-radius: 20px;
   transition: transform 0.5s ease;
-  height: 355px; /* 이미지의 세로 길이를 400px로 고정 */
+  height: 355px; /* 이미지의 세로 길이를 355px로 고정 */
   object-fit: cover; /* 이미지가 세로 크기에 맞게 잘림 없이 표시되도록 */
+  
 }
 
 .carousel .slide.selected .carousel-image {
