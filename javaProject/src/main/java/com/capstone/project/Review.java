@@ -1,7 +1,9 @@
+// Review.java
 package com.capstone.project;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Review {
@@ -20,7 +22,10 @@ public class Review {
     private int rating;
     private String content;
     private String image;
-    private String keywords;
+    // private String keywords;
+
+	@ElementCollection
+	private List<String> keywords;
     private LocalDateTime createdAt = LocalDateTime.now();
     
     // 새로운 필드: 스크랩 여부
@@ -65,10 +70,10 @@ public class Review {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getKeywords() {
+	public List<String> getKeywords() {
 		return keywords;
 	}
-	public void setKeywords(String keywords) {
+	public void setKeywords(List<String> keywords) {
 		this.keywords = keywords;
 	}
 	public LocalDateTime getCreatedAt() {

@@ -23,6 +23,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -36,6 +37,9 @@ public class UserController {
 
     @Autowired
     private RecommendationService recommendationService;
+
+    @Autowired
+    private ScrapService scrapService;
 
     // 회원가입 엔드포인트
     @PostMapping("/register")
@@ -148,5 +152,67 @@ public class UserController {
         }
 
         return "home"; // 홈 페이지 템플릿
+    }
+
+    // status - 후기
+    @GetMapping("/status")
+    public ResponseEntity<Map<String, Object>> getUserStatus(Principal principal) {
+        System.out.println("Entered /api/users/status endpoint"); // 로그 추가
+        Map<String, Object> response = new HashMap<>();
+        try {
+            if (principal != null && principal.getName() != null) {
+                System.out.println("Principal name: " + principal.getName()); // 로그 추가
+                String userEmail = principal.getName();
+                User user = userService.findByEmail(userEmail)
+                        .orElse(null);
+                if (user != null) {
+                    response.put("isLoggedIn", true);
+                    response.put("username", user.getUsername());
+                } else {
+                    System.out.println("User not found with email: " + userEmail); // 로그 추가
+                    response.put("isLoggedIn", false);
+                }
+            } else {
+                System.out.println("Principal is null or principal.getName() is null"); // 로그 추가
+                response.put("isLoggedIn", false);
+            }
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace(); // 예외 스택 트레이스 출력
+            response.put("isLoggedIn", false);
+            response.put("error", "An error occurred while checking user status.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    // 사용자가 스크랩한 리뷰 목록을 가져오는 API
+    @GetMapping("/scrapped-reviews")
+    public ResponseEntity<?> getScrappedReviews(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        String userEmail = principal.getName();
+        User user = userService.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + userEmail));
+
+        List<Review> scrappedReviews = scrapService.getScrappedReviewsByUser(user);
+
+        // Review 엔티티를 그대로 반환하면 순환 참조 문제가 발생할 수 있으므로, 필요한 필드만 포함하도록 합니다.
+        // 또는 ReviewDTO를 사용할 수 있습니다.
+        // 여기서는 간단하게 필요한 필드만 포함하도록 Map을 사용합니다.
+
+        List<Map<String, Object>> response = scrappedReviews.stream().map(review -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", review.getId());
+            map.put("rating", review.getRating());
+            map.put("content", review.getContent());
+            map.put("image", review.getImage());
+            map.put("keywords", review.getKeywords());
+            map.put("scrapped", true); // 항상 스크랩된 상태
+            return map;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
     }
 }

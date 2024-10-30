@@ -1,33 +1,49 @@
+// reviewlist.js(리뷰 목록)
 import React, { useEffect, useState } from 'react';
 import FloatingButton from '../components/FloatingButton';
 import { FaStar, FaHeart } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
+import '../styles/MyPageReviews.css';
 
 const ReviewList = () => {
+  const { id } = useParams(); // 후기: 축제 ID를 URL에서 가져옴
   const [reviews, setReviews] = useState([]);
-  const [likedReviews, setLikedReviews] = useState([]);
 
   useEffect(() => {
-    const storedReviews = localStorage.getItem('reviews');
-    if (storedReviews) {
-      setReviews(JSON.parse(storedReviews));
-    }
+    // 특정 축제에 해당하는 리뷰 목록을 백엔드에서 가져옴
+    fetch(`http://localhost:8080/api/festivals/${id}/reviews`)
+      .then(response => response.json())
+      .then(data => setReviews(data))
+      .catch(error => console.error('리뷰 가져오기 실패:', error));
+  }, [id]);
 
-    const storedLikes = localStorage.getItem('likedReviews');
-    if (storedLikes) {
-      setLikedReviews(JSON.parse(storedLikes));
-    }
-  }, []);
-
-  const toggleLike = (index) => {
-    const updatedLikes = [...likedReviews];
-    if (updatedLikes.includes(index)) {
-      updatedLikes.splice(updatedLikes.indexOf(index), 1);
-    } else {
-      updatedLikes.push(index);
-    }
-    setLikedReviews(updatedLikes);
-    localStorage.setItem('likedReviews', JSON.stringify(updatedLikes));
+  const toggleLike = (reviewId) => {
+    fetch(`http://localhost:8080/api/festivals/${id}/reviews/${reviewId}/scrap`, {
+      method: 'POST',
+      credentials: 'include',
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('스크랩 처리 중 오류가 발생했습니다.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Scrap status:', data.isScrapped); // 디버깅용 로그
+          // 스크랩 상태 업데이트
+          setReviews(prevReviews => prevReviews.map(review => {
+              if (review.id === reviewId) {
+                  return { ...review, scrapped: data.isScrapped };
+              }
+              return review;
+          }));
+      })
+      .catch(error => {
+          console.error('스크랩 처리 실패:', error);
+          alert('스크랩 처리에 실패했습니다.');
+      });
   };
+
 
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
@@ -58,7 +74,7 @@ const ReviewList = () => {
               {renderStars(review.rating)}
           
               {/* 리뷰 텍스트 */}
-              <p className="review-text">{review.text}</p>
+              <p className="review-text">{review.content}</p>
           
               {/* 키워드 목록 */}
               <div className="keywords">
@@ -69,19 +85,18 @@ const ReviewList = () => {
             </div>
             {review.image && (
               <div className="review-image-container">
-                <img src={review.image} alt="리뷰 이미지" className="review-image" />
+                <img src={`/uploads/${review.image}`} alt="리뷰 이미지" className="review-image" />
                 <FaHeart
-                  onClick={() => toggleLike(index)}
-                  className={`heart-icon ${likedReviews.includes(index) ? 'liked' : ''}`}
+                    onClick={() => toggleLike(review.id)}
+                    className={`heart-icon ${review.scrapped ? 'liked' : ''}`}
                 />
               </div>
             )}
           </div>
-          
           ))}
         </div>
       )}
-      <FloatingButton />
+      <FloatingButton id={id} />
     </div>
   );
 };

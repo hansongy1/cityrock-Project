@@ -1,17 +1,14 @@
+// FloatingButton.js
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const FloatingButton = () => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/review'); // '/review' 경로로 이동
-  };
-
+const FloatingButton = ({ id }) => {
   return (
-    <button className="floating-btn" onClick={handleClick}>
-      <span>+</span>
-    </button>
+    <Link to={`/festivals/${id}/reviews/add`} className="floating-button">
+      <button className="floating-btn">
+        <span>+</span>
+      </button>
+    </Link>
   );
 };
 

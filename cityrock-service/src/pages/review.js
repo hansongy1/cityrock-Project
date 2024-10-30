@@ -1,14 +1,19 @@
+// review.js
 import React, { useEffect, useState } from 'react';
 import '../styles/main.css';
 import pic from '../assets/add_a_photo.png';
 import { PiStarFill, PiStarLight } from "react-icons/pi";
 import Modal from 'react-modal';
 import ReviewList from '../pages/reviewlist';
-
+import { useParams, useNavigate } from 'react-router-dom'; // 축제 ID를 가져오기 위해 useParams를 사용
 
 Modal.setAppElement('#root');
 
-function App() {
+function Review() {
+  const navigate = useNavigate(); // 리디렉트 처리를 위해 사용
+  const { id } = useParams(); // URL에서 축제 ID를 가져옴
+  // console.log(`Festival ID: , ${id}`); // 디버깅용
+  console.log(`Festival ID: ${id}`);
   const [rating, setRating] = useState(0);
   const [isClicked, setIsClicked] = useState({
     사진이잘나와요: false,
@@ -25,12 +30,37 @@ function App() {
   const [reviews, setReviews] = useState([]);
   const [image, setImage] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 상태
+  const [imageFile, setImageFile] = useState(null); // 이미지 파일 상태 추가
 
+  // 로그인 여부 확인
   useEffect(() => {
-    const storedReviews = localStorage.getItem('reviews');
-    if (storedReviews) {
-      setReviews(JSON.parse(storedReviews));
-    }
+    fetch('http://localhost:8080/api/users/status', { // 로그인 상태를 확인하는 API 호출
+      method: 'GET',
+      credentials: 'include', // 쿠키를 보내기 위해 설정
+    })
+    .then(response => {
+      if (!response.ok) {
+        // 서버에서 에러 응답을 받은 경우
+        return response.json().then(errorData => {
+          throw new Error(errorData.error || '서버 오류');
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.isLoggedIn) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        navigate('/login');
+      }
+    })
+    .catch(error => {
+      console.error('로그인 상태 확인 실패:', error);
+      setIsLoggedIn(false);
+      navigate('/login');
+    });
   }, []);
 
   const Star = () => {
@@ -80,39 +110,71 @@ function App() {
   const handleReviewSubmit = () => {
     if (review.trim() === '' || rating === 0) return;
 
-    const newReview = {
-      rating,
-      text: review,
-      keywords: Object.keys(isClicked).filter(key => isClicked[key]),
-      image: image
-    };
+    const keywords = Object.keys(isClicked).filter(key => isClicked[key]);
 
-    const updatedReviews = [...reviews, newReview];
-    setReviews(updatedReviews);
-  
-    // localStorage에 저장
-    localStorage.setItem('reviews', JSON.stringify(updatedReviews));
-    setReview('');
-    setImage(null);
-    setIsClicked({
-      사진이잘나와요: false,
-      새로워요: false,
-      음식이맛있어요: false,
-      즐거워요: false,
-      실망했어요: false,
-      사람이많아요: false,
-      추천하지않아요: false,
-      기대이하예요: false
+    const formData = new FormData();
+    formData.append('rating', rating);
+    formData.append('content', review);
+    keywords.forEach(keyword => formData.append('keywords', keyword)); // 키워드 배열 전송
+    if (imageFile) {
+      formData.append('imageFile', imageFile);
+    }
+
+    fetch(`http://localhost:8080/api/festivals/${id}/reviews/add`, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include' // 인증 정보를 포함하여 요청
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('리뷰 작성 중 오류가 발생했습니다.');
+      }
+      return response.text(); // 서버 응답이 단순 문자열인 경우
+    })
+    .then(data => {
+      console.log('리뷰 작성 완료:', data);
+      navigate(`/festivals/${id}/reviews`);
+    })
+    .catch(error => {
+      console.error('리뷰 작성 실패:', error);
+      alert('리뷰 작성에 실패했습니다.');
     });
-    setButtonEnabled(false);
-    setRating(0);
 
-    window.location.href = '/reviewlist';
+
+    // const newReview = {
+    //   rating,
+    //   text: review,
+    //   keywords: Object.keys(isClicked).filter(key => isClicked[key]),
+    //   image: image
+    // };
+
+    // const updatedReviews = [...reviews, newReview];
+    // setReviews(updatedReviews);
+  
+    // // localStorage에 저장
+    // localStorage.setItem('reviews', JSON.stringify(updatedReviews));
+    // setReview('');
+    // setImage(null);
+    // setIsClicked({
+    //   사진이잘나와요: false,
+    //   새로워요: false,
+    //   음식이맛있어요: false,
+    //   즐거워요: false,
+    //   실망했어요: false,
+    //   사람이많아요: false,
+    //   추천하지않아요: false,
+    //   기대이하예요: false
+    // });
+    // setButtonEnabled(false);
+    // setRating(0);
+
+    // window.location.href = '/reviewlist';
   };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setImageFile(file); // 파일 저장
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result);
@@ -219,7 +281,7 @@ function App() {
           placeholder="다녀오신 축제가 어떠셨나요? 리뷰를 작성해 주세요"
           rows={6} // 원하는 행 수 설정
           cols={50} // 원하는 열 수 설정
-          style={{ marginLeft: '37px', marginTop: '-12px', resize: 'none', borderRadius: '10px', fontSize: '13px', padding: '13px 13px', border: '1px solid lightgray', fontFamily: 'Arial, Helvetica, sans-serif' }} 
+          style={{ width: '327px', marginLeft: '37px', marginTop: '-12px', resize: 'none', borderRadius: '10px', fontSize: '13px', padding: '13px 13px', border: '1px solid lightgray', fontFamily: 'Arial, Helvetica, sans-serif' }} 
         />
         <button
           onClick={handleReviewSubmit}
@@ -260,4 +322,4 @@ function App() {
   );
 }
 
-export default App;
+export default Review;
