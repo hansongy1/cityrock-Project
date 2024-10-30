@@ -19,7 +19,18 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/login", "/register", "/initialUser", "/css/**", "/js/**", "/images/**");
     }
 
-    // 기존의 addViewControllers 메소드가 있다면 유지
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/initialUser").setViewName("forward:/index.html");
+    }
+
+    // 정적 리소스 핸들러 추가
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:///C:/uploads/");
+    }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")  // API 경로에 대해 CORS 허용

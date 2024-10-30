@@ -1,3 +1,4 @@
+/* MyPageReviews.css */
 .custom-button {
   background-color: #ffffff; /* 버튼 배경색 */
   color: black; /* 버튼 텍스트 색상 */
@@ -103,11 +104,11 @@ margin: 26px 0 -1px 32px; /* 상, 우, 하, 좌 여백 순서 */
 
 /* 리뷰가 없을 때 표시되는 텍스트 스타일 */
 .no-review-text {
-text-align: center;
-font-weight: bold;
-font-size: 16px;
-color: #676767;
-margin-top: 32px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #676767;
+  margin-top: 32px;
 }
 
 /* 리뷰 카드 그리드 레이아웃 */
@@ -140,11 +141,12 @@ font-size: 1.2rem;
 
 /* 키워드 스타일 */
 .keywords {
-display: flex;
-flex-wrap: wrap;
-gap: 4px;
-margin-top: -7px;
-margin-bottom: 4px;
+  /* width: 210px; */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: -7px;
+  margin-bottom: 4px;
 }
 
 .keyword-item {
@@ -169,18 +171,19 @@ margin-left: 32px; /* 왼쪽 여백 추가 */
 
 /* 텍스트 영역 스타일 조정 */
 .review-info {
-flex: 1; /* 텍스트 영역이 남는 공간을 차지하도록 설정 */
-text-align: left; /* 텍스트를 왼쪽 정렬 */
-margin-left: 2px; /* 왼쪽 여백 추가 */
-display: flex;
-flex-direction: column; /* 플렉스 방향을 세로로 설정 */
-gap: 8px; /* 별점, 텍스트, 키워드 사이의 간격 추가 */
+  flex: 1; /* 텍스트 영역이 남는 공간을 차지하도록 설정 */
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  margin-left: 2px; /* 왼쪽 여백 추가 */
+  display: flex;
+  flex-direction: column; /* 플렉스 방향을 세로로 설정 */
+  gap: 8px; /* 별점, 텍스트, 키워드 사이의 간격 추가 */
 }
 
 .review-text {
-font-size: 12px; /* 텍스트 크기 */
-margin-top: 8px; /* 별점과 텍스트 사이 간격 */
-margin-bottom: 8px; /* 텍스트와 키워드 사이 간격 */
+  font-size: 12px; /* 텍스트 크기 */
+  margin-top: 8px; /* 별점과 텍스트 사이 간격 */
+  margin-bottom: 8px; /* 텍스트와 키워드 사이 간격 */
+  width: 200px;
 }
 
 .review-card-text {
@@ -200,7 +203,7 @@ background-color: pink;
 width: 105px;
 height: 105px;
 border-radius: 8px;
-transform: translate(200%, -104%);
+transform: translate(214%, -114%);
 /* object-fit: cover; */
 }
 
@@ -213,7 +216,7 @@ color: lightgray;
 cursor: pointer;
 font-size: 18px;
 transition: color 0.2s;
-transform: translate(-110%, -14px);
+transform: translate(-30%, -24px);
 }
 
 .heart-icon.liked {
@@ -225,4 +228,8 @@ color: red;
 .review-grid-container {
   grid-template-columns: 1fr; /* 작은 화면에서는 한 줄에 하나씩만 표시 */
 }
+}
+
+.review-card-header {
+  width: 200px;
 }

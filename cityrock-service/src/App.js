@@ -1,3 +1,4 @@
+// App.js
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React from 'react';
 import Header from "./components/Header";
@@ -38,8 +39,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/initialUser" element={<InitialUser />} />
-            <Route path="/festival" element={<FestivalInfo />} />
-            <Route path="/festival/:id" element={<FestivalDetail />} />
             <Route path="/aiprofile" element={<AIprofile />} />
             <Route path="/aiprofilestep1" element={<AIprofileStep1 />} />
             <Route path="/aiprofilestep2" element={<AIprofileStep2 />} />
@@ -53,8 +52,10 @@ function App() {
             <Route path="/notice2" element={<Notice2 />} />
             <Route path="/notice3" element={<Notice3 />} />
             <Route path="/notice4" element={<Notice4 />} />
-            <Route path="/review" element={<Review />} />
-            <Route path="/reviewlist" element={<Reviewlist />} />
+            <Route path="/festivals" element={<FestivalInfo />} />
+            <Route path="/festivals/:id" element={<FestivalDetail />} />
+            <Route path="/festivals/:id/reviews/add" element={<Review />} />
+            <Route path="/festivals/:id/reviews" element={<Reviewlist />} /> 
             <Route path="/reviewfav" element={<Reviewfav/>} />
             <Route path="/afterHome" element={<AfterHome />} />
             <Route path="/arcamera" element={<ArCamera />} />

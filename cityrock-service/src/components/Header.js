@@ -1,3 +1,4 @@
+// Header.js
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Header.css';
@@ -35,11 +36,16 @@ const Header = () => {
     '/arcamera',
   ];
 
-  // 경로가 '/festival/'로 시작하고 '/festival' 자체가 아닌 경우
-  const isHeaderHidden = pathsToHideHeader.includes(location.pathname) || (location.pathname.startsWith('/festival/') && location.pathname !== '/festival');
+  // Use regular expressions to match dynamic routes
+  const isFestivalDetailPage = /^\/festivals\/\d+$/.test(location.pathname); // Matches '/festivals/:id'
+  const isFestivalReviewsPage = /^\/festivals\/\d+\/reviews$/.test(location.pathname); // Matches '/festivals/:id/reviews'
+
+  // Determine if the header should be hidden
+  const isHeaderHidden =
+    pathsToHideHeader.includes(location.pathname.toLowerCase()) || isFestivalDetailPage;
 
   if (isHeaderHidden) {
-    return null; // 헤더를 숨김
+    return null; // Hide the header
   }
   
   return (
@@ -68,7 +74,7 @@ const Header = () => {
             <Link to="/">전시</Link>
           </li>
           <li>
-            <Link to="/festival">축제</Link>
+            <Link to="/festivals">축제</Link>
           </li>
           <li>
             <Link to="/aiprofile">AI 프로필</Link>

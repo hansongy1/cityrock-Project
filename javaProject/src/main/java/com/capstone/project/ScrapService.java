@@ -29,10 +29,12 @@ public class ScrapService {
         scrapRepository.delete(scrap); // 스크랩 삭제
     }
 
+    // 특정 리뷰가 스크랩되었는지 확인
     public boolean isScrapped(User user, Review review) {
         return scrapRepository.findByUserAndReview(user, review).isPresent();
     }
     
+    // 유저가 스크랩한 모든 리뷰 스크랩 취소
     public void unscrapReview(User user, Review review) {
         Scrap scrap = scrapRepository.findByUserAndReview(user, review)
                 .orElseThrow(() -> new IllegalArgumentException("Scrap not found"));
@@ -61,6 +63,11 @@ public class ScrapService {
         return scraps.stream()
                 .map(Scrap::getReview)
                 .collect(Collectors.toList());
+    }
+
+    // 스크랩을 모두 가져오는 메서드
+    public List<Scrap> findByUser(User user) {
+        return scrapRepository.findByUser(user);
     }
 
 }
