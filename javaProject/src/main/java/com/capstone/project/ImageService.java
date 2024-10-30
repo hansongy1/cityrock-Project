@@ -39,7 +39,7 @@ public class ImageService {
     private static final String PROCESSED_DIR = "C:/processed-images/";
     private static final String HUGGING_FACE_API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4";
     private static final String HUGGING_FACE_API_KEY = "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"; // Stable Diffusion API 키
-    private static final String REMOVE_BG_API_KEY = "tbK9JYz5aH5WrN9opzawkTMX";  // remove.bg API 키
+    private static final String REMOVE_BG_API_KEY = "F6hfDTnqb8x4sHkjAsRj11LL";  // remove.bg API 키
     private static final int MAX_FILES = 30; // 최대 파일 개수
 
     // 키워드와 랜덤 프롬프트를 매핑한 Map

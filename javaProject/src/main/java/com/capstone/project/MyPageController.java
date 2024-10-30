@@ -11,8 +11,9 @@ import java.nio.file.*;
 import java.security.Principal;
 import java.util.List;
 
-@Controller
-@RequestMapping("/mypage")
+@RestController
+@RequestMapping("/api/mypage")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true") // CORS 설정 (필요에 따라 수정)
 public class MyPageController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class MyPageController {
     private ScrapService scrapService;
 
     private static final String PROFILE_IMAGE_DIR = "C:/profile/";
-
+   
     // 마이페이지 메인 화면
     @GetMapping
     public String myPage(Model model, Principal principal) {
@@ -101,21 +102,21 @@ public class MyPageController {
         return "redirect:/mypage";
     }
 
-    // 스크랩한 게시물 페이지 표시
-    @GetMapping("/scrappedReviews")
-    public String scrappedReviews(Model model, Principal principal) {
-        if (principal == null) {
-            return "redirect:/login";
-        }
+    // // 스크랩한 게시물 페이지 표시
+    // @GetMapping("/scrappedReviews")
+    // public String scrappedReviews(Model model, Principal principal) {
+    //     if (principal == null) {
+    //         return "redirect:/login";
+    //     }
 
-        String userEmail = principal.getName();
-        User user = userService.findByEmail(userEmail).orElse(null);
+    //     String userEmail = principal.getName();
+    //     User user = userService.findByEmail(userEmail).orElse(null);
 
-        if (user != null) {
-            List<Review> scrappedReviews = scrapService.getScrappedReviewsByUser(user);
-            model.addAttribute("reviews", scrappedReviews);
-        }
+    //     if (user != null) {
+    //         List<Review> scrappedReviews = scrapService.getScrappedReviewsByUser(user);
+    //         model.addAttribute("reviews", scrappedReviews);
+    //     }
 
-        return "scrapped_reviews";  // 스크랩한 게시물 페이지로 이동
-    }
+    //     return "scrapped_reviews";  // 스크랩한 게시물 페이지로 이동
+    // }
 }
