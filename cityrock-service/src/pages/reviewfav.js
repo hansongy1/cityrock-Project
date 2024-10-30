@@ -1,24 +1,30 @@
+// reviewfav.js
 import React, { useEffect, useState } from 'react';
 import LoGo from '../assets/image-45.png';
 import { FaStar } from 'react-icons/fa';
+import '../styles/MyPageReviews.css'; // 스타일 파일 임포트
 
 const ReviewFav = () => {
   const [reviews, setReviews] = useState([]);
-  const [likedReviews, setLikedReviews] = useState([]);
 
   useEffect(() => {
-    const storedReviews = localStorage.getItem('reviews');
-    const storedLikes = localStorage.getItem('likedReviews');
-
-    if (storedReviews) {
-      const reviewsData = JSON.parse(storedReviews);
-      setReviews(reviewsData);
-    }
-
-    if (storedLikes) {
-      const likedReviewsData = JSON.parse(storedLikes);
-      setLikedReviews(likedReviewsData);
-    }
+    fetch('http://localhost:8080/api/users/scrapped-reviews', {
+      credentials: 'include', // 쿠키를 포함하여 요청
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('스크랩한 리뷰를 가져오는 데 실패했습니다.');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Scrapped reviews:', data);
+        setReviews(data);
+      })
+      .catch(error => {
+        console.error('스크랩한 리뷰 가져오기 실패:', error);
+        alert('스크랩한 리뷰를 가져오는 데 실패했습니다.');
+      });
   }, []);
 
   const renderStars = (rating) => {
@@ -38,26 +44,26 @@ const ReviewFav = () => {
   return (
     <div className="review-fav">
       <img src={LoGo} alt='LoGo' className="logo-image" />
-      <p style={{ fontSize: '20px', fontWeight: 'bold', textAlign: 'left', margin: '26px 0 -1px 32px' }}>좋아요 한 리뷰</p>
+      <p style={{ fontSize: '20px', fontWeight: 'bold', textAlign: 'left', margin: '26px 0 -1px 32px' }}>스크랩한 리뷰</p>
 
-      {likedReviews.length === 0 ? (
-        <p style={{ marginLeft: '104px', fontWeight: 'bold', marginTop: '150px' }}>좋아요한 리뷰가 없습니다</p>
+      {reviews.length === 0 ? (
+        <p style={{ marginLeft: '104px', fontWeight: 'bold', marginTop: '150px' }}>스크랩한 리뷰가 없습니다</p>
       ) : (
         <div className="review-grid-container">
-          {likedReviews.map((index) => (
-            <div key={index} className="review-card">
+          {reviews.map((review) => (
+            <div key={review.id} className="review-card">
               <div className="review-card-header">
-                {renderStars(reviews[index]?.rating)}
-                <p className="review-card-text">{reviews[index]?.text}</p>
+                {renderStars(review.rating)}
+                <p className="review-card-text">{review.content}</p>
               </div>
               <div className="keywords">
-                {reviews[index]?.keywords?.map((keyword, idx) => (
+                {review.keywords?.map((keyword, idx) => (
                   <span key={idx} className="keyword-item">{keyword}</span>
                 ))}
               </div>
-              {reviews[index]?.image && (
+              {review.image && (
                 <div className="review-image-container">
-                  <img src={reviews[index]?.image} alt="리뷰 이미지" className="review-image" />
+                  <img src={`/uploads/${review.image}`} alt="리뷰 이미지" className="review-image" />
                 </div>
               )}
             </div>

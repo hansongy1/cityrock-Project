@@ -31,6 +31,13 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/initialUser").setViewName("forward:/index.html");
     }
 
+    // 정적 리소스 핸들러 추가
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:///C:/uploads/");
+    }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")

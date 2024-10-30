@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.Arrays;
@@ -52,10 +55,13 @@ public class SecurityConfig {
                     "/initialUser",
                     "/css/**",
                     "/js/**",
-                    "/images/**"
+                    "/images/**",
+                    "/api/festivals",
+                    "/api/festivals/**",
+                    "/api/festivals/*/reviews",
+                    "/api/users/status"
                 ).permitAll()
-                .requestMatchers("/api/festivals", "/api/festivals/**").permitAll()
-                .requestMatchers("/api/users/delete-account").authenticated()
+                .requestMatchers("/api/users/delete-account", "/api/preferences/**", "/initialUser", "/api/festivals/*/reviews/add").authenticated()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable()) // 폼 로그인 비활성화
@@ -73,6 +79,9 @@ public class SecurityConfig {
                 .maximumSessions(1) // 최대 세션 수 제한
                 .expiredUrl("/login?expired=true") // 세션 만료 시 리디렉션 설정
             )
+            .securityContext(securityContext -> securityContext
+                .securityContextRepository(new HttpSessionSecurityContextRepository()) // 추가된 부분
+            )
             .exceptionHandling(exception -> exception
                 .authenticationEntryPoint((request, response, authException) -> 
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
@@ -81,6 +90,7 @@ public class SecurityConfig {
 
         http.userDetailsService(userDetailsService);
         
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_THREADLOCAL);
         return http.build();
     }
 

@@ -61,15 +61,6 @@ const FestivalInfo = () => {
   }, [region, category, sortOrder, festivals]);
 
 
-  // 로딩 중일 때 표시
-  // if (loading) {
-  //   return (
-  //     <div className="loading-container">
-  //       <img src="/assets/icon_logo.png" alt="Loading..." className="loading-image" />
-  //     </div>
-  //   );
-  // }
-
   // 에러 발생 시 표시
   if (error) {
     return <div>Error occurred: {error.message}</div>;
@@ -82,7 +73,7 @@ const FestivalInfo = () => {
       <div className="festival-list">
         {filteredFestivals.map((festival) => (
           <Link
-            to={`/festival/${festival.id}`}
+            to={`/festivals/${festival.id}`}
             key={festival.id}
             className="festival-card-link"
           >
@@ -115,18 +106,5 @@ const FestivalInfo = () => {
     </div>
   );
 };
-
-// D-Day 계산 함수(현재 안됨)
-// const calculateDday = (startDate) => {
-//   const today = new Date();
-//   const eventStartDate = new Date(startDate); // startDate를 Date 객체로 변환
-//   const timeDiff = eventStartDate - today;
-//   const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-//   return daysDiff > 0
-//     ? `D-${daysDiff}`
-//     : daysDiff === 0
-//     ? 'D-Day'
-//     : `D+${Math.abs(daysDiff)}`;
-// };
 
 export default FestivalInfo;
