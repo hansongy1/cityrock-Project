@@ -38,7 +38,7 @@ public class ImageService {
     private static final String UPLOAD_DIR = "C:/uploaded-images/";
     private static final String PROCESSED_DIR = "C:/processed-images/";
     private static final String HUGGING_FACE_API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4";
-    private static final String HUGGING_FACE_API_KEY = "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"; // Stable Diffusion API 키
+    private static final String HUGGING_FACE_API_KEY = "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"; // Stable Diffusion API 키
     private static final String REMOVE_BG_API_KEY = "F6hfDTnqb8x4sHkjAsRj11LL";  // remove.bg API 키
     private static final int MAX_FILES = 30; // 최대 파일 개수
 
