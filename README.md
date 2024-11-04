@@ -25,12 +25,12 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀장 한송이 : </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 주서영 : </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>FE 팀원 이유정 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/user-attachments/assets/48667df5-b853-4f7c-91bf-bd3eff6f057e" width="100px;" alt=""/><br /><sub><b>FE 팀장 한송이 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/user-attachments/assets/f13e48dc-022f-4070-936e-fc1875395b43" width="100px;" alt=""/><br /><sub><b>FE 팀원 주서영 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/user-attachments/assets/de8f084e-2cae-44ad-847d-919239293daf" width="100px;" alt=""/><br /><sub><b>FE 팀원 이유정 : </b></sub></a><br /></td>
      <tr/>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>BE 팀원 이예영 : </b></sub></a><br /></td>
-      <td align="center"><a href=""><img src="" width="100px;" alt=""/><br /><sub><b>BE 팀원 임가연 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/user-attachments/assets/48e2e101-0a16-47ad-b38f-ac51b2ff962a" width="100px;" alt=""/><br /><sub><b>BE 팀원 이예영 : </b></sub></a><br /></td>
+      <td align="center"><a href=""><img src="https://github.com/user-attachments/assets/afefb91f-589a-4193-990c-6bfa9243fb48" width="100px;" alt=""/><br /><sub><b>BE 팀원 임가연 : </b></sub></a><br /></td>
     </tr>
   </tbody>
 </table>
