@@ -1,10 +1,28 @@
-# cityrock-Project
-
-# 다른 팀원이 푸시했을 때:
-작업 전 main과 서브 브랜치(본인이름으로 된 브랜치) 모두 ‘git pull origin main’을 하기. 최신 버전을 받은 후 작업 시작
-
-# 본인이 푸시했을 때(본인의 서브브랜치에서 'git push origin 브랜치명'을 한 이후):
-git switch main으로 가서 main에서 'git pull origin main'을 하여 최신 버전으로 작업물을 받기
+# 『Team.웹파노라마』HYANGWOMAN UNIV.   
+2024 한양여대 캡스톤 HYANGWOMAN UNIV 2024-Capstone  
 
 
-🚨본인의 서브브렌치에서 ‘git push origin 브랜치명’을 했으면, 꼭!! Github로 가서 compare 및 merge 하기!!!
+🎉 서비스 소개  
+도시의 모든 축제를 내 손안에!  
+전국 축제 정보를 내 취향에 맞게 살펴 보세요!  
+<br/>
+<br/>
+⚙️ 기술 스택  
+Front End :   <a href="링크"><img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white"/></a>
+<a href="링크"><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/></a>
+<a href="링크"><img src="https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white"/></a>  
+Back End :  <a href="링크"><img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"/></a>
+<a href="링크"><img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white"/></a>
+<a href="링크"><img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white"/></a>  
+Design :   <a href="링크"><img src=""/></a>  
+Communication : <a href="링크"><img src=""/></a>  
+Evironment :    <a href="링크"><img src=""/></a>
+<br/>
+<br/>
+👥 팀원 소개
+
+FE 팀장 : 한송이  
+FE 팀원 : 주서영  
+FE 팀원 : 이유정  
+BE 팀원 : 이예영  
+BE 팀원 : 임가연
