@@ -179,16 +179,24 @@ const ArCamera = () => {
 
     const preview = cameraPreviewRef.current;
     const previewRect = preview.getBoundingClientRect();
-
+  
+    context.save(); // 현재 상태 저장
+  
+    // 셀카 모드일 때 전체 캔버스를 반전
+    if (facingMode === 'user') {
+      context.translate(canvas.width, 0);
+      context.scale(-1, 1); // 좌우 반전
+    }
+  
     if (uploadedImage) {
       const uploadedImg = new Image();
       uploadedImg.src = uploadedImage;
       uploadedImg.onload = () => {
         const imgAspectRatio = uploadedImg.width / uploadedImg.height;
         const previewAspectRatio = previewRect.width / previewRect.height;
-
+  
         let drawWidth, drawHeight, offsetX, offsetY;
-
+  
         if (imgAspectRatio > previewAspectRatio) {
           drawWidth = previewRect.width;
           drawHeight = drawWidth / imgAspectRatio;
@@ -200,28 +208,23 @@ const ArCamera = () => {
           offsetX = (previewRect.width - drawWidth) / 2;
           offsetY = 0;
         }
-
+  
         context.drawImage(uploadedImg, offsetX, offsetY, drawWidth, drawHeight);
         drawCharacterAndSave(context, previewRect.width / canvas.width);
       };
     } else if (videoRef.current) {
       const video = videoRef.current;
-
-      // 셀카 모드일 때 이미지 저장 시 좌우 반전
-      if (facingMode === 'user') {
-        context.translate(canvas.width, 0); // 좌우 반전
-        context.scale(-1, 1);
-      }
-
       context.drawImage(video, 0, 0, previewRect.width, previewRect.height);
       drawCharacterAndSave(context, previewRect.width / canvas.width);
     } else {
       alert('카메라 또는 이미지가 정상적으로 로드되지 않았습니다.');
     }
+  
+    context.restore(); // 이전 상태 복원
   };
 
   const drawCharacterAndSave = (context, scaleFactor) => {
-    let marginRight = uploadedImage ? 53 : 0;
+    let marginRight = uploadedImage ? 55 : 48;
 
     if (selectedCharacter) {
       const img = new Image();

@@ -31,7 +31,7 @@ const Header = () => {
     '/aiprofile',
     '/aiprofilestep1',
     '/aiprofilestep2',
-    '/aiprofilesgittep3',
+    '/aiprofilestep3',
     '/aiprofilecreating', 
     '/arcamera',
   ];
