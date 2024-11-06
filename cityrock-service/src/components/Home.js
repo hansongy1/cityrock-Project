@@ -98,7 +98,7 @@ const Home = () => {
                     <div className="makdagi-2" />
                 </div>
                 <div className='reco-contents'>
-                    <p className='reco-text'>당신에게 알맞은 컨텐츠를 추천해드릴게요!</p>
+                    <p className='reco-text1'>당신에게 알맞은 컨텐츠를 추천해드릴게요!</p>
                     <div className="reco-alg">
                         {isLoggedIn ? (
                             recommendations.length > 0 ? (
@@ -112,10 +112,10 @@ const Home = () => {
                                     </div>
                                 ))
                             ) : (
-                                <p className="reco-text">추천할 축제를 불러오는 중입니다...</p>
+                                <p className="reco-text2">추천할 축제를 불러오는 중입니다...</p>
                             )
                         ) : (
-                            <p className="reco-text" style={{ marginLeft: '53px', fontWeight: '550' }}>
+                            <p className="reco-text2">
                                 추천할 축제를 불러오는 중입니다...
                             </p>
                         )}
